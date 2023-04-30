@@ -34,7 +34,7 @@
   conda activate <nombre_entorno>
   ```
 
-- Instalar las librerías (`PyQt6`)
+- Instalar las librerías (`PyQt6`, `matplotlib`)
 
   ```bash
   pip install -r requirements.txt
