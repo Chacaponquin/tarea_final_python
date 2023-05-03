@@ -54,3 +54,16 @@ class GraphNode:
         edge = self.get_edge(node)
         return edge is not None
 
+    def get_adjacents_nodes(self):
+        adjacents = []
+        for edge in self.edge_list:
+            adjacents.append(edge.node)
+        return adjacents
+
+    def get_adjacents_labels(self):
+        adjacents = []
+        for edge in self.edge_list:
+            adjacents.append(edge.node.label)
+        return adjacents
+
+
