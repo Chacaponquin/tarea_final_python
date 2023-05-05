@@ -15,10 +15,13 @@ class GraphNode:
     ##eliminar una arista de la lista de aristas, se recibe el nodo hacia el cual apunta la arista
     def delete_edge(self, node):
         edge = self.get_edge(node)
-        if edge is not None:
+        if edge is None:
+            raise ValueError(f"No existe una arista entre {self.label} y {node.label}")
+        else:
             self.edge_list.remove(edge)
         return edge is not None
 
+    #Retorna None si no existe arista entre ellos
     def get_edge(self, node):
         edge = None
         i = 0
@@ -34,21 +37,21 @@ class GraphNode:
     ##retorna TRUE si se puede añadir y retorna FALSE si existe una arista que apunta hacia ese nodo
     def add_edge(self, node, weight):
         edge = self.get_edge(node)
-        result = edge is None
-        if result:
+        if edge is not None:
+            raise ValueError(f"Ya existe una arista entre {self.label} y {node.label}")
+        else:
             self.edge_list.append(GraphEdge(node, weight))
-        return result
+        return edge is None
 
+    #retorna TRUE si se pudo modificar el peso
     def change_weight(self, node, new_weight):
-        i = 0
-        found = False
-        while i < len(self.edge_list) and not found:
-            if self.edge_list[i].node == node:
-                self.edge_list[i].weight = new_weight
-                found = True
-            else:
-                i = i + 1
-        return found
+        result = False
+        edge = self.get_edge(node)
+        if edge is None:
+            raise ValueError(f"No existe una arista entre{self.label} y {node.label}")
+        else:
+            result = edge.change_weight(new_weight)
+        return result
 
     def is_adjacent(self, node):
         edge = self.get_edge(node)
