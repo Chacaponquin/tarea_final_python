@@ -124,4 +124,16 @@ class Graph:
                 nodes.append(n.label)
         return nodes
 
+    def get_depth_first_search(self, node):
+        visited = []
+        if len(node.edge_list) > 0:
+            self.depth_first_search(node, visited)
+        return visited
+
+    def depth_first_search(self, node, visited):
+        if node.label not in visited:
+            visited.append(node.label)
+        for edge in node.edge_list:
+            if edge.node.label not in visited:
+                self.depth_first_search(edge.node, visited)
 
