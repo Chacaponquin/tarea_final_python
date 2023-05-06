@@ -1,10 +1,12 @@
 from src.modules.graph.classes.GraphEdge import GraphEdge
 
+
+
 class GraphNode:
-    ##label es un string
-    def __init__(self, label):
+    # label es un string
+    def __init__(self, label: str):
         self.label = label
-        self.edge_list = []
+        self.edge_list: list[GraphEdge] = []
 
     def __str__(self):
         return self.label
@@ -12,7 +14,7 @@ class GraphNode:
     def __eq__(self, other):
         return other.label == self.label
 
-    ##eliminar una arista de la lista de aristas, se recibe el nodo hacia el cual apunta la arista
+    # eliminar una arista de la lista de aristas, se recibe el nodo hacia el cual apunta la arista
     def delete_edge(self, node):
         edge = self.get_edge(node)
         if edge is None:
@@ -21,7 +23,7 @@ class GraphNode:
             self.edge_list.remove(edge)
         return edge is not None
 
-    #Retorna None si no existe arista entre ellos
+    # Retorna None si no existe arista entre ellos
     def get_edge(self, node):
         edge = None
         i = 0
@@ -34,8 +36,8 @@ class GraphNode:
                 i = i+1
         return edge
 
-    ##retorna TRUE si se puede añadir y retorna FALSE si existe una arista que apunta hacia ese nodo
-    def add_edge(self, node, weight):
+    # retorna TRUE si se puede añadir y retorna FALSE si existe una arista que apunta hacia ese nodo
+    def add_edge(self, node, weight: float):
         edge = self.get_edge(node)
         if edge is not None:
             raise ValueError(f"Ya existe una arista entre {self.label} y {node.label}")
@@ -43,8 +45,8 @@ class GraphNode:
             self.edge_list.append(GraphEdge(node, weight))
         return edge is None
 
-    #retorna TRUE si se pudo modificar el peso
-    def change_weight(self, node, new_weight):
+    # retorna TRUE si se pudo modificar el peso
+    def change_weight(self, node, new_weight: float):
         result = False
         edge = self.get_edge(node)
         if edge is None:
