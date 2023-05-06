@@ -6,9 +6,13 @@ from .components import FormSection, MenuBar
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.main_window_controller = MainWindowController()
 
-        self.init_ui()
+        try:
+            self.main_window_controller = MainWindowController()
+
+            self.init_ui()
+        except:
+            print('Hubo error')
 
     def init_ui(self):
         # Configurar la ventana

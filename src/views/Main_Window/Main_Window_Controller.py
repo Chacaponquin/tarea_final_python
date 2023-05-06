@@ -68,6 +68,10 @@ class MainWindowController:
         return new_graph
 
     def import_txts(self, file_routes: list[str]):
-        self.file_reader_services.import_graph_txt()
+        try:
+            for file in file_routes:
+                new_graph = self.file_reader_services.import_graph_txt(file)
+        except:
+            print('Error')
 
 
