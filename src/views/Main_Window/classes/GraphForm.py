@@ -22,6 +22,19 @@ class GraphForm:
         self.nodes_form = new_form
         print(self.nodes_form)
 
+    def update_node_connections(self, node_index: int, new_connections: str):
+        new_form: list[(str, str)] = []
+
+        for node_i, node_inf in enumerate(self.nodes_form):
+            if node_index == node_i:
+                node_name, _ = node_inf
+                new_form.append((node_name, new_connections))
+            else:
+                new_form.append(node_inf)
+
+        self.nodes_form = new_form
+        print(self.nodes_form)
+
     def update_nodes_form(self, node_key: str, node_connections: str):
         pass
 

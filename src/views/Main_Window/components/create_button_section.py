@@ -65,6 +65,9 @@ def create_node_form_section(index: int, node_name: str, node_connections: list[
     def change_node_name(name: str):
         graph_form.update_node_name(index, name)
 
+    def change_node_connection(connections: str):
+        graph_form.update_node_connections(index, connections)
+
     # node name input
     node_name_edit = QtWidgets.QLineEdit()
     node_name_edit.setFixedWidth(50)
@@ -74,6 +77,7 @@ def create_node_form_section(index: int, node_name: str, node_connections: list[
     # node connection input
     node_connection_edit = QtWidgets.QLineEdit()
     node_connection_edit.setText(node_connections)
+    node_connection_edit.textChanged.connect(lambda n: change_node_connection(n))
 
     node_config_layout.addWidget(node_name_edit)
     node_config_layout.addWidget(node_connection_edit)
