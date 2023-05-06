@@ -1,6 +1,7 @@
 from src.modules.graph.services import GraphServices
 from src.modules.file_reader.services import FileReaderServices
 from src.modules.graph.classes import Graph, GraphNode
+from .classes import GraphForm
 
 
 class MainWindowController:
@@ -11,16 +12,17 @@ class MainWindowController:
         # lista de todos los grafos utilizados
         self.graphs: dict = {'Init Graph': self.create_default_graph()}
 
+        # índice del grafo seleccionado
+        self.selected_graph = 0
+
+        # selected graph form
+        self.graph_form = GraphForm(self.get_selected_graph())
+
         # crear la imagen del grafo creado por defecto
         self.save_graph_image('Init Graph')
 
-    def get_graph_by_index(self, index: int) -> (str, Graph):
-        return list(self.graphs.items())[index]
-
-    def get_node_connections_string(self, node: GraphNode) -> str:
-        labels_list: list[str] = list(map(lambda n: n.label, node.get_adjacents_nodes()))
-
-        return ', '.join(labels_list)
+    def get_selected_graph(self) -> (str, Graph):
+        return list(self.graphs.items())[self.selected_graph]
 
     # método para guardar uno de los grafos guardados en una imagen
     def save_graph_image(self, graph_name: str):

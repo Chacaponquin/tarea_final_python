@@ -1,14 +1,12 @@
 from PyQt6 import QtWidgets, QtGui, QtCore
 from .Main_Window_Controller import MainWindowController
+from .components import create_button_section
 
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.main_window_controller = MainWindowController()
-
-        # índice del grafo seleccionado
-        self.selected_graph = 0
 
         self.init_ui()
 
@@ -23,7 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
         layout = QtWidgets.QGridLayout(widget)
 
         menubar = self.create_menu_bar()
-        button_section = self.create_button_section()
+        button_section = create_button_section(self.main_window_controller)
         image_section = self.create_image_section()
 
         content = QtWidgets.QWidget()
@@ -75,63 +73,6 @@ class MainWindow(QtWidgets.QMainWindow):
         image_layout.addWidget(image_tab)
 
         return image_tab
-
-    def create_button_section(self):
-        # Crear una sección para los botones
-        button_section = QtWidgets.QWidget(self)
-        button_section.setMaximumWidth(300)
-        button_section.setStyleSheet('background-color: white;')
-
-        button_layout = QtWidgets.QVBoxLayout(button_section)
-
-        add_button_widget = QtWidgets.QWidget()
-        add_button_layout = QtWidgets.QHBoxLayout(add_button_widget)
-        add_button_layout.addStretch()
-
-        add_node_button = QtWidgets.QPushButton('Add Node')
-        add_node_button.setFixedWidth(100)
-        add_node_button.setStyleSheet('background-color: green; color: white; font-weight: 600')
-        add_button_layout.addWidget(add_node_button)
-
-        add_button_widget.setLayout(add_button_layout)
-
-        nodes_title = QtWidgets.QLabel()
-        nodes_title.setText('Nodes')
-        nodes_title.setStyleSheet('font-size: 22px; font-weight: 700')
-
-        nodes_section = QtWidgets.QWidget()
-        nodes_section_layout = QtWidgets.QVBoxLayout()
-        nodes_section.setLayout(nodes_section_layout)
-
-        # buscar el grafo seleccionado
-        selected_graph_name, selected_graph = self.main_window_controller.get_graph_by_index(self.selected_graph)
-
-        for node in selected_graph.node_list:
-            node_config_section = QtWidgets.QWidget()
-            node_config_layout = QtWidgets.QHBoxLayout()
-            node_config_section.setLayout(node_config_layout)
-
-            # node name input
-            node_name_edit = QtWidgets.QLineEdit()
-            node_name_edit.setFixedWidth(50)
-            node_name_edit.setText(node.label)
-
-            # node connection input
-            node_connection_edit = QtWidgets.QLineEdit()
-            connections_list = self.main_window_controller.get_node_connections_string(node)
-            node_connection_edit.setText(connections_list)
-
-            node_config_layout.addWidget(node_name_edit)
-            node_config_layout.addWidget(node_connection_edit)
-
-            nodes_section_layout.addWidget(node_config_section)
-
-        button_layout.addWidget(nodes_title)
-        button_layout.addWidget(nodes_section)
-        button_layout.addWidget(add_button_widget)
-        button_layout.addStretch()
-
-        return button_section
 
     def load_image(self):
         # Abrir un cuadro de diálogo para seleccionar una imagen
