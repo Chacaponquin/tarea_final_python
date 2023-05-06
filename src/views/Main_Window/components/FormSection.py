@@ -8,7 +8,20 @@ class FormSection:
         # controller
         self.main_window_controller = main_window_controller
 
+        # añadir signal
+        self.main_window_controller.signals.updateNodesFormSignal.connect(lambda x: self.updateSection())
+
         # create section
+        self.button_section = QtWidgets.QWidget()
+        self.button_layout = QtWidgets.QVBoxLayout(self.button_section)
+
+        # actualizar la sección con los datos
+        self.updateSection()
+
+    def create_button_section(self):
+        return self.button_section
+
+    def updateSection(self):
         self.button_section = QtWidgets.QWidget()
         self.button_section.setMaximumWidth(300)
         self.button_section.setStyleSheet('background-color: white;')
@@ -16,7 +29,6 @@ class FormSection:
         # create layout
         self.button_layout = QtWidgets.QVBoxLayout(self.button_section)
 
-    def create_button_section(self):
         # pintar el header
         self.paint_form_title_section()
 
@@ -26,12 +38,9 @@ class FormSection:
         # sección de botones actualizar y añadir
         self.paint_buttons_section()
 
-        # añadir signal
-        self.main_window_controller.signals.updateNodesFormSignal.connect(self.paint_node_form)
-
         self.button_layout.addStretch()
 
-        return self.button_section
+        self.button_section.setLayout(self.button_layout)
 
     def paint_form_title_section(self):
         nodes_title = QtWidgets.QLabel()
@@ -62,8 +71,6 @@ class FormSection:
         self.button_layout.addWidget(add_button_widget)
 
     def paint_node_form(self):
-        print('Hola')
-
         nodes_section = QtWidgets.QWidget()
         nodes_section_layout = QtWidgets.QVBoxLayout()
         nodes_section.setLayout(nodes_section_layout)

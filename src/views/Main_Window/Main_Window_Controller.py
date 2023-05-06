@@ -67,4 +67,7 @@ class MainWindowController:
 
         return new_graph
 
+    def import_txts(self, file_routes: list[str]):
+        self.file_reader_services.import_graph_txt()
+
 

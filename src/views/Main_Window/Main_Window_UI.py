@@ -40,6 +40,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def create_image_section(self):
         # Crear una sección para mostrar la imagen
         image_tab = QtWidgets.QTabWidget(self)
+        image_tab.setStyleSheet('font-size: 18px')
         image_layout = QtWidgets.QVBoxLayout(image_tab)
 
         for graph_name, graph in self.main_window_controller.graphs.items():
@@ -61,11 +62,3 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return image_tab
 
-    def load_image(self):
-        # Abrir un cuadro de diálogo para seleccionar una imagen
-        file_name, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Abrir imagen", QtCore.QDir.homePath())
-
-        if file_name:
-            # Cargar la imagen seleccionada y mostrarla en el label
-            pixmap = QtGui.QPixmap(file_name)
-            self.image_label.setPixmap(pixmap)
