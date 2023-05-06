@@ -51,21 +51,27 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def create_image_section(self):
         # Crear una sección para mostrar la imagen
-        image_section = QtWidgets.QWidget(self)
-        image_layout = QtWidgets.QVBoxLayout(image_section)
+        image_tab = QtWidgets.QTabWidget(self)
+        image_layout = QtWidgets.QVBoxLayout(image_tab)
 
-        # Crear un label para mostrar la imagen
-        image_label = QtWidgets.QLabel(self)
-        image_label.setScaledContents(True)
-        pixmap = QtGui.QPixmap(self.main_window_controller.get_graph_image_route('test'))
-        image_label.setPixmap(pixmap)
+        for graph_name, graph in self.main_window_controller.graphs.items():
+            # Crear un label para mostrar la imagen
+            image_label = QtWidgets.QLabel(self)
+            image_label.setScaledContents(True)
+
+            # ruta de la imagen (que es igual al nombre del grafo creado)
+            image_route = self.main_window_controller.get_graph_image_route(graph_name)
+
+            # mostrar imagen
+            pixmap = QtGui.QPixmap(image_route)
+            image_label.setPixmap(pixmap)
+
+            image_tab.addTab(image_label, graph_name)
 
         # Añadir el label a la sección de la imagen
-        image_layout.addWidget(image_label)
+        image_layout.addWidget(image_tab)
 
-        self.main_window_controller.save_graph_image()
-
-        return image_section
+        return image_tab
 
     def create_button_section(self):
         # Crear una sección para los botones

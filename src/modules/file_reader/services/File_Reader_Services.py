@@ -43,12 +43,31 @@ class FileReaderServices:
 
     @staticmethod
     def export_graph_to_image(graph: Graph, image_name: str):
+        # convertir el grafo normal a un grafo de networkx
         save_graph = FileReaderServices.convert_graph_to_nx_graph(graph)
-        nx.draw(save_graph, with_labels=True)
 
         # crear la ruta de la imagen a exportar
         image_route = FileReaderServices.create_graph_image_route(image_name)
 
+        graph_edges = [(u, v) for (u, v, d) in save_graph.edges(data=True)]
+
+        # positions for all nodes - seed for reproducibility
+        pos = nx.spring_layout(save_graph, seed=20)
+
+        # nodes
+        nx.draw_networkx_nodes(save_graph, pos, node_size=500)
+
+        # edges
+        nx.draw_networkx_edges(save_graph, pos, edgelist=graph_edges, width=2)
+
+        # node labels
+        nx.draw_networkx_labels(save_graph, pos, font_size=15)
+        # edge weight labels
+        edge_labels = nx.get_edge_attributes(save_graph, "weight")
+        nx.draw_networkx_edge_labels(save_graph, pos, edge_labels)
+
+        # guardar imagen con matplotlib
+        plt.axis("off")
         plt.savefig(image_route)
 
     @staticmethod
@@ -75,6 +94,6 @@ class FileReaderServices:
 
             for edge in node_edges:
                 next_node_label = str(edge.node.label)
-                save_graph.add_edge(node_label, next_node_label)
+                save_graph.add_edge(node_label, next_node_label, weight=edge.weight)
 
         return save_graph

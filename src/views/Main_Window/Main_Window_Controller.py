@@ -9,11 +9,15 @@ class MainWindowController:
         self.file_reader_services = FileReaderServices()
 
         # lista de todos los grafos utilizados
-        self.graphs = [self.create_default_graph()]
+        self.graphs: dict = {'Init Graph': self.create_default_graph()}
 
-    def save_graph_image(self):
-        save_graph = self.graphs[0]
-        self.file_reader_services.export_graph_to_image(save_graph, 'test')
+        # crear la imagen del grafo creado por defecto
+        self.save_graph_image('Init Graph')
+
+    # método para guardar uno de los grafos guardados en una imagen
+    def save_graph_image(self, graph_name: str):
+        save_graph = self.graphs[graph_name]
+        self.file_reader_services.export_graph_to_image(save_graph, graph_name)
 
     def get_graph_image_route(self, graph_name: str) -> str:
         return FileReaderServices.create_graph_image_route(graph_name)
