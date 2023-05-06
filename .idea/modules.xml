@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/PycharmProjects/pythonProject2/.idea/pythonProject2.iml" filepath="$USER_HOME$/PycharmProjects/pythonProject2/.idea/pythonProject2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/tarea_final_python.iml" filepath="$PROJECT_DIR$/.idea/tarea_final_python.iml" />
     </modules>
   </component>
