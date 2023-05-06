@@ -80,35 +80,6 @@ class Graph:
     def are_adjacent(self, node_1, node_2):
         return node_1.is_adjacent(node_2)
 
-<<<<<<< HEAD
-    def get_depth_first_search(self, node):
-        visited = []
-        if len(node.edge_list) > 0:
-            self.depth_first_search(node, visited)
-        return visited
-
-    def depth_first_search(self, node, visited):
-        if node.label not in visited:
-            visited.append(node.label)
-        for edge in node.edge_list:
-            if edge.node.label not in visited:
-                self.depth_first_search(edge.node, visited)
-
-graph = Graph()
-node1 = GraphNode("jose")
-node2 = GraphNode("amaya")
-node3 = GraphNode("hector")
-graph.add_node(node1.label)
-graph.add_node(node2.label)
-graph.add_node(node3.label)
-print(graph.connect(node1.label, node2.label, 5))
-print(len(graph.node_list[0].edge_list))
-graph.disconnect(node1.label, node2.label)
-print(len(graph.node_list[0].edge_list))
-graph.connect(node1.label, node2.label, 5)
-graph.connect(node1.label, node3.label, 5)
-print(graph.get_depth_first_search(graph.node_list[0]))
-=======
     def change_weight(self,node_1:GraphNode,node_2:GraphNode,weight):
         node_1.change_weight(node_2,weight)
 
@@ -153,5 +124,4 @@ print(graph.get_depth_first_search(graph.node_list[0]))
                 nodes.append(n.label)
         return nodes
 
->>>>>>> 3f5e442f6048db80f5df4148c419f7e2c924a2f6
 
