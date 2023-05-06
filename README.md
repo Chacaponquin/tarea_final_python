@@ -107,10 +107,10 @@ La carpeta hasta ahora tiene dos sub-carpetas que pertenecen a cada módulo. En 
 
 ## 💻 Tareas (por ahora)
 ### 🧑‍🚀 Tareas de José 
-- ⭕ Crear la lógica básica del grafo. O sea crear la clase `Graph`, `GraphEdge`, `GraphNode` con sus propiedades.
-- ⭕ Hacer el método dentro de `Graph` para poder hacer el recorrido a lo ancho. **Creo que lo mejor seria que devolviera un array con el nombre de cada nodo que recorre**
-- ⭕ Crear unos cuantos archivos `.txt` dentro de la carpeta `src/modules/file_reader/data` que sean datos de prueba para extraer grafos de ellos.
-- ⭕ Crear test que verifiquen que se está haciendo bien el recorrido a lo ancho.
+- ✅ Crear la lógica básica del grafo. O sea crear la clase `Graph`, `GraphEdge`, `GraphNode` con sus propiedades.
+- ✅ Hacer el método dentro de `Graph` para poder hacer el recorrido a lo ancho. **Creo que lo mejor seria que devolviera un array con el nombre de cada nodo que recorre**
+- ✅ Crear unos cuantos archivos `.txt` dentro de la carpeta `src/modules/file_reader/data` que sean datos de prueba para extraer grafos de ellos.
+- ✅ Crear test que verifiquen que se está haciendo bien el recorrido a lo ancho.
 
 ### 🐈 Tareas de Amaya 
 - ⭕ Crear los métodos para importar y exportar en txt los grafos en `File_Reader_Services`.

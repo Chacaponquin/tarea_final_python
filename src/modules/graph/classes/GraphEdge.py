@@ -9,4 +9,14 @@ class GraphEdge:
     def __str__(self):
         return str(self.node) + " peso: " + str(self.weight)
 
+    def change_weight(self, new_weight):
+        result = False
+        if not isinstance(new_weight, int):
+            raise TypeError("El peso de la arista debe ser un entero")
+        else:
+            self.weight = new_weight
+            result = True
+        return result
+
+
 
