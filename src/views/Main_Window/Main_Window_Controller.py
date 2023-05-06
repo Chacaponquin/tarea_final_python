@@ -44,7 +44,6 @@ class MainWindowController:
     def add_node_form(self):
         self.graph_form.add_node()
         print(self.graph_form.nodes_form)
-        self.signals.updateNodesFormSignal.emit()
 
     # método para crear el primer grafo que se muestra en la pantalla
     def create_default_graph(self) -> Graph:
@@ -71,6 +70,7 @@ class MainWindowController:
         try:
             for file in file_routes:
                 new_graph = self.file_reader_services.import_graph_txt(file)
+                print(new_graph)
         except:
             print('Error')
 

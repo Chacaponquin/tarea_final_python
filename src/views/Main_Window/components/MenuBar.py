@@ -3,7 +3,7 @@ from PyQt6 import QtWidgets, QtGui, QtCore
 
 
 class MenuBar:
-    def __init__(self, main_window_controller: MainWindowController):
+    def __init__(self, parent_layout: QtWidgets.QGridLayout, main_window_controller: MainWindowController):
         self.main_window_controller = main_window_controller
 
         # create menu
@@ -19,8 +19,7 @@ class MenuBar:
 
         self.menu_bar_layout.addWidget(import_button)
 
-    def create_menu_bar(self):
-        return self.menubar
+        parent_layout.addWidget(self.menubar, 0, 0)
 
     def load_txt(self):
         dialog = QtWidgets.QFileDialog()

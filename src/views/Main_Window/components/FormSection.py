@@ -4,7 +4,10 @@ from src.views.Main_Window.classes.GraphForm import GraphForm
 
 
 class FormSection:
-    def __init__(self, main_window_controller: MainWindowController):
+    def __init__(self, parent_layout: QtWidgets.QGridLayout, main_window_controller: MainWindowController):
+        # parent layout
+        self.parent_layout = parent_layout
+
         # controller
         self.main_window_controller = main_window_controller
 
@@ -16,12 +19,9 @@ class FormSection:
         self.button_layout = QtWidgets.QVBoxLayout(self.button_section)
 
         # actualizar la sección con los datos
-        self.updateSection()
+        self.update_section()
 
-    def create_button_section(self):
-        return self.button_section
-
-    def updateSection(self):
+    def update_section(self):
         self.button_section = QtWidgets.QWidget()
         self.button_section.setMaximumWidth(300)
         self.button_section.setStyleSheet('background-color: white;')
@@ -42,6 +42,8 @@ class FormSection:
 
         self.button_section.setLayout(self.button_layout)
 
+        self.parent_layout.addWidget(self.button_section, 0, 1)
+
     def paint_form_title_section(self):
         nodes_title = QtWidgets.QLabel()
         nodes_title.setText('Nodes')
@@ -57,7 +59,7 @@ class FormSection:
         add_node_button = QtWidgets.QPushButton('Add Node')
         add_node_button.setFixedWidth(100)
         add_node_button.setStyleSheet('background-color: green; color: white; font-weight: 600')
-        add_node_button.clicked.connect(self.main_window_controller.add_node_form)
+        add_node_button.clicked.connect(self.add_node_action)
 
         update_node_button = QtWidgets.QPushButton('Update')
         update_node_button.setFixedWidth(100)
@@ -69,6 +71,10 @@ class FormSection:
         add_button_widget.setLayout(add_button_layout)
 
         self.button_layout.addWidget(add_button_widget)
+
+    def add_node_action(self):
+        self.main_window_controller.add_node_form()
+        self.update_section()
 
     def paint_node_form(self):
         nodes_section = QtWidgets.QWidget()
