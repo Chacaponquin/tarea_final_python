@@ -14,6 +14,14 @@ class MainWindowController:
         # crear la imagen del grafo creado por defecto
         self.save_graph_image('Init Graph')
 
+    def get_graph_by_index(self, index: int) -> (str, Graph):
+        return list(self.graphs.items())[index]
+
+    def get_node_connections_string(self, node: GraphNode) -> str:
+        labels_list: list[str] = list(map(lambda n: n.label, node.get_adjacents_nodes()))
+
+        return ', '.join(labels_list)
+
     # método para guardar uno de los grafos guardados en una imagen
     def save_graph_image(self, graph_name: str):
         save_graph = self.graphs[graph_name]
