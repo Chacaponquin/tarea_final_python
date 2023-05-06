@@ -35,8 +35,11 @@ class GraphForm:
         self.nodes_form = new_form
         print(self.nodes_form)
 
-    def update_nodes_form(self, node_key: str, node_connections: str):
+    def update_nodes_form(self):
         pass
+
+    def add_node(self):
+        self.nodes_form.append(('', ''))
 
     def update_form(self, selected_graph):
         selected_graph_name, graph = selected_graph

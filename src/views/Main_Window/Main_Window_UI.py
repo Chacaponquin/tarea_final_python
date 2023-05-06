@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets, QtGui, QtCore
 from .Main_Window_Controller import MainWindowController
-from .components import create_button_section
+from .components import FormSection, MenuBar
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -20,35 +20,22 @@ class MainWindow(QtWidgets.QMainWindow):
         # Crear un grid-layout con dos secciones
         layout = QtWidgets.QGridLayout(widget)
 
-        menubar = self.create_menu_bar()
-        button_section = create_button_section(self.main_window_controller)
+        menubar = MenuBar(self.main_window_controller).create_menu_bar()
+        button_section = FormSection(self.main_window_controller).create_button_section()
         image_section = self.create_image_section()
 
         content = QtWidgets.QWidget()
-        contentLayout = QtWidgets.QGridLayout(content)
+        content_layout = QtWidgets.QGridLayout(content)
 
         # Añadir la sección de los botones a la parte superior del grid-layout
-        contentLayout.addWidget(button_section, 0, 1)
-        contentLayout.addWidget(image_section, 0, 0)
+        content_layout.addWidget(button_section, 0, 1)
+        content_layout.addWidget(image_section, 0, 0)
 
         layout.addWidget(menubar, 0, 0)
         # Añadir la sección de la imagen a la parte inferior del grid-layout
         layout.addWidget(content, 1, 0)
 
         self.setCentralWidget(widget)
-
-    def create_menu_bar(self):
-        # create menu
-        menubar = QtWidgets.QMenuBar()
-        menubar.setFixedHeight(50)
-        actionFile = menubar.addMenu("File")
-        actionFile.addAction("New")
-        actionFile.addAction("Open")
-        actionFile.addAction("Save")
-        actionFile.addSeparator()
-        actionFile.addAction("Quit")
-
-        return menubar
 
     def create_image_section(self):
         # Crear una sección para mostrar la imagen

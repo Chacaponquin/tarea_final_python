@@ -2,10 +2,19 @@ from src.modules.graph.services import GraphServices
 from src.modules.file_reader.services import FileReaderServices
 from src.modules.graph.classes import Graph, GraphNode
 from .classes import GraphForm
+from PyQt6 import QtCore
+
+
+class Signals(QtCore.QObject):
+    updateNodesFormSignal = QtCore.pyqtSignal()
 
 
 class MainWindowController:
     def __init__(self):
+        # signals
+        self.signals = Signals()
+
+        # services
         self.graph_services = GraphServices()
         self.file_reader_services = FileReaderServices()
 
@@ -31,6 +40,11 @@ class MainWindowController:
 
     def get_graph_image_route(self, graph_name: str) -> str:
         return FileReaderServices.create_graph_image_route(graph_name)
+
+    def add_node_form(self):
+        self.graph_form.add_node()
+        print(self.graph_form.nodes_form)
+        self.signals.updateNodesFormSignal.emit()
 
     # método para crear el primer grafo que se muestra en la pantalla
     def create_default_graph(self) -> Graph:
