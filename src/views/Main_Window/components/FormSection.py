@@ -60,6 +60,7 @@ class FormSection:
 
         update_node_button = QtWidgets.QPushButton('Update')
         update_node_button.setFixedWidth(100)
+        update_node_button.clicked.connect(self.update_graph_action)
         update_node_button.setStyleSheet('background-color: blue; color: white; font-weight: 600')
 
         add_button_layout.addWidget(update_node_button)
@@ -68,6 +69,9 @@ class FormSection:
         add_button_widget.setLayout(add_button_layout)
 
         self.button_layout.addWidget(add_button_widget)
+
+    def update_graph_action(self):
+        self.main_window_controller.update_graph_form()
 
     def add_node_action(self):
         self.main_window_controller.add_node_form()

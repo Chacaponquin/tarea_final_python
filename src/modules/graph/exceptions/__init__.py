@@ -1,0 +1,3 @@
+class EmptyNodeLabelException(TypeError):
+    pass
+

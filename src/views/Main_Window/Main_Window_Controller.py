@@ -47,6 +47,9 @@ class MainWindowController:
         graph_inf = self.graphs[self.selected_graph]
         return graph_inf['name'], graph_inf['graph']
 
+    def update_graph_form(self):
+        self.graph_form.update_nodes_form()
+
     # método para guardar uno de los grafos guardados en una imagen
     def save_graph_image(self, graph_name: str):
         for graph in self.graphs:

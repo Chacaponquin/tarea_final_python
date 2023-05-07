@@ -1,5 +1,6 @@
 from src.modules.graph.classes import GraphNode, Graph
 
+
 class GraphForm:
     def __init__(self, selected_graph: Graph):
         self.selected_graph = selected_graph
@@ -86,10 +87,13 @@ class GraphForm:
                 new_form.append(node_inf)
 
         self.nodes_form = new_form
-        print(self.nodes_form)
 
     def update_nodes_form(self):
-        pass
+        new_graph = Graph()
+
+        new_nodes: list[GraphNode] = []
+        for node in self.nodes_form:
+            pass
 
     def add_node(self):
         self.nodes_form.append(('', ''))
