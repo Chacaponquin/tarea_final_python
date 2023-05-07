@@ -89,10 +89,14 @@ class GraphForm:
     def update_nodes_form(self):
         new_graph = Graph()
 
-        new_nodes: list[GraphNode] = []
+        # crear nodos
         for node in self.nodes_form:
             node_name, node_connections = node
-            n = GraphNode(node_name)
+            new_graph.add_node(node_name)
+
+        # crear conecciones
+        for node in self.nodes_form:
+            node_name, node_connections = node
 
 
     def add_node(self):

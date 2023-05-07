@@ -1,5 +1,6 @@
 from src.modules.graph.classes.GraphNode import GraphNode
 from queue import Queue
+from src.modules.graph.exceptions import DuplicateNodeException
 
 
 class Graph:
@@ -11,7 +12,7 @@ class Graph:
         if node is None:
             self.node_list.append(GraphNode(label))
         else:
-            raise ValueError(f"Ya existe un nodo con el identificador {label} en el grafo")
+            raise DuplicateNodeException(label)
         return node is None
 
     # Retorna un nodo dado un label o None si no existe el nodo

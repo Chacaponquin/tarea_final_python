@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
 from src.views.Main_Window.classes.GraphForm import GraphForm
-from src.modules.graph.exceptions import EmptyNodeLabelException
+from src.modules.graph.exceptions import EmptyNodeLabelException, DuplicateNodeException
 
 
 class FormSection:
@@ -77,6 +77,8 @@ class FormSection:
             self.main_window_controller.update_graph_form()
         except EmptyNodeLabelException:
             QtWidgets.QMessageBox.critical(self.button_section, 'Error', 'No pueden existir nodos sin nombre.')
+        except DuplicateNodeException as error:
+            QtWidgets.QMessageBox.critical(self.button_section, 'Error', f'Existen dos nodos con el nombre {error.duplicate_label}')
         except Exception as err:
             print(err)
 
