@@ -53,8 +53,6 @@ class Graph:
                 node_2 = self.get_node(label_2)
                 if node_2 is None:
                     raise ValueError(f"No existe el nodo con la etiqueta {label_2} en el grafo")
-                elif not isinstance(weight, int):
-                    raise TypeError("El peso de la arista debe ser un entero")
         return node_1.add_edge(node_2, weight)
 
     # Conecta dos nodos del grafo

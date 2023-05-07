@@ -94,9 +94,13 @@ class GraphForm:
             node_name, node_connections = node
             new_graph.add_node(node_name)
 
-        # crear conecciones
+        # crear conexiones
         for node in self.nodes_form:
             node_name, node_connections = node
+
+            for con in node_connections:
+                con_node, con_weight = con
+                new_graph.connect(node_name, con_node, con_weight)
 
 
     def add_node(self):
