@@ -1,4 +1,5 @@
-from PyQt6 import QtWidgets, QtGui, QtCore
+from PyQt6 import QtWidgets, QtGui
+from .constants import COLORS
 from .Main_Window_Controller import MainWindowController
 from .components import FormSection, MenuBar, ImageSection
 
