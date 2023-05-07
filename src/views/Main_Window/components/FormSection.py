@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets
+from PyQt6 import QtWidgets, QtCore, QtGui
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
 from src.views.Main_Window.classes.GraphForm import GraphForm
 
@@ -92,29 +92,39 @@ class FormSection:
         # add to layout
         self.button_layout.addWidget(nodes_section)
 
-    def create_node_form_section(self, index: int, node_name: str, node_connections: list[str], graph_form: GraphForm):
+    def create_node_form_section(self, index: int, node_name: str, node_connections: list[(str, float)], graph_form: GraphForm):
         node_config_section = QtWidgets.QWidget()
-        node_config_layout = QtWidgets.QHBoxLayout()
-        node_config_section.setLayout(node_config_layout)
+        node_config_layout = QtWidgets.QGridLayout(node_config_section)
+        node_config_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
 
         def change_node_name(name: str):
             graph_form.update_node_name(index, name)
 
-        def change_node_connection(connections: str):
+        def change_node_connection(connections: (str, float)):
             graph_form.update_node_connections(index, connections)
 
         # node name input
         node_name_edit = QtWidgets.QLineEdit()
+        node_name_edit.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
         node_name_edit.setFixedWidth(50)
         node_name_edit.setText(node_name)
         node_name_edit.textChanged.connect(lambda n: change_node_name(n))
 
-        # node connection input
-        node_connection_edit = QtWidgets.QLineEdit()
-        node_connection_edit.setText(node_connections)
-        node_connection_edit.textChanged.connect(lambda n: change_node_connection(n))
+        for connection_index, connection in enumerate(node_connections):
+            edge_node_con, edge_weight = connection
+            connection_section = QtWidgets.QWidget()
+            connection_section_layout = QtWidgets.QHBoxLayout(connection_section)
 
-        node_config_layout.addWidget(node_name_edit)
-        node_config_layout.addWidget(node_connection_edit)
+            node_to_connect_input = QtWidgets.QLineEdit(edge_node_con)
+            edge_weight_input = QtWidgets.QLineEdit()
+            edge_weight_input.setValidator(QtGui.QDoubleValidator())
+            edge_weight_input.setText(str(edge_weight))
+
+            connection_section_layout.addWidget(node_to_connect_input)
+            connection_section_layout.addWidget(edge_weight_input)
+
+            node_config_layout.addWidget(connection_section, connection_index, 1)
+
+        node_config_layout.addWidget(node_name_edit, 0, 0)
 
         return node_config_section

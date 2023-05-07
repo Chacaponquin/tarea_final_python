@@ -1,5 +1,5 @@
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
-from PyQt6 import QtWidgets, QtGui, QtCore
+from PyQt6 import QtWidgets
 
 
 class MenuBar:
@@ -8,14 +8,14 @@ class MenuBar:
 
         # create menu
         self.menubar = QtWidgets.QWidget()
-
         self.menu_bar_layout = QtWidgets.QHBoxLayout(self.menubar)
-        self.menubar.setLayout(self.menu_bar_layout)
+
+        self.menu_bar_layout.addStretch()
 
         import_button = QtWidgets.QPushButton('Import')
         import_button.clicked.connect(lambda x: self.load_txt())
-        import_button.setStyleSheet('background-color: green; color: white; font-size: 20px; font-weight: 600')
-        import_button.setFixedWidth(150)
+        import_button.setStyleSheet('background-color: green; color: white; font-size: 18px; font-weight: 600; padding: 3.5px 0')
+        import_button.setFixedWidth(100)
 
         self.menu_bar_layout.addWidget(import_button)
 

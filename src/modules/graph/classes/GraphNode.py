@@ -1,7 +1,6 @@
 from src.modules.graph.classes.GraphEdge import GraphEdge
 
 
-
 class GraphNode:
     # label es un string
     def __init__(self, label: str):

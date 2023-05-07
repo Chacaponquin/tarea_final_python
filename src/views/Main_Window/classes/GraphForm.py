@@ -5,25 +5,25 @@ class GraphForm:
         self.selected_graph = selected_graph
 
         self.graph_name: str = ''
-        self.nodes_form: list[(str, str)] = []
+        self.nodes_form: list[(str, [(str, float)])] = []
 
         self.update_form(self.selected_graph)
 
     def update_node_name(self, node_index: int, new_node_name: str):
-        new_form: list[(str, str)] = []
+        new_form: list[(str, (str, float))] = []
 
         for node_i, node_inf in enumerate(self.nodes_form):
             if node_index == node_i:
-                _, connection = node_inf
-                new_form.append((new_node_name, connection))
+                _, connections = node_inf
+                new_form.append((new_node_name, connections))
             else:
                 new_form.append(node_inf)
 
         self.nodes_form = new_form
         print(self.nodes_form)
 
-    def update_node_connections(self, node_index: int, new_connections: str):
-        new_form: list[(str, str)] = []
+    def update_node_connections(self, node_index: int, new_connections: (str, float)):
+        new_form: list[(str, (str, float))] = []
 
         for node_i, node_inf in enumerate(self.nodes_form):
             if node_index == node_i:
@@ -48,7 +48,8 @@ class GraphForm:
         self.graph_name = selected_graph_name
 
         # actualizar el formulario de nodos
-        self.nodes_form = [(node.label, self.get_node_connections_string(node)) for node in graph.node_list]
+        self.nodes_form = [(node.label, [(edge.node.label, edge.weight) for edge in node.edge_list]) for node in graph.node_list]
+        print(self.nodes_form)
 
     def get_node_connections_string(self, node: GraphNode) -> str:
         labels_list: list[str] = list(map(lambda n: n.label, node.get_adjacents_nodes()))

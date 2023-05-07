@@ -7,11 +7,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        try:
-            self.main_window_controller = MainWindowController()
-            self.init_ui()
-        except:
-            print('Hubo error')
+        self.main_window_controller = MainWindowController()
+        self.init_ui()
 
     def init_ui(self):
         # Configurar la ventana
