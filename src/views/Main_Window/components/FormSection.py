@@ -92,16 +92,20 @@ class FormSection:
         # add to layout
         self.button_layout.addWidget(nodes_section)
 
-    def create_node_form_section(self, index: int, node_name: str, node_connections: list[(str, float)], graph_form: GraphForm):
+    def create_node_form_section(self, node_index: int, node_name: str, node_connections: list[(str, float)], graph_form: GraphForm):
         node_config_section = QtWidgets.QWidget()
         node_config_layout = QtWidgets.QGridLayout(node_config_section)
         node_config_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
 
         def change_node_name(name: str):
-            graph_form.update_node_name(index, name)
+            graph_form.update_node_name(node_index, name)
 
         def change_node_connection(connections: (str, float)):
-            graph_form.update_node_connections(index, connections)
+            graph_form.update_node_connections(node_index, connections)
+
+        def add_edge():
+            self.main_window_controller.add_node_edge(node_index)
+            self.update_section()
 
         # node name input
         node_name_edit = QtWidgets.QLineEdit()
@@ -112,19 +116,46 @@ class FormSection:
 
         for connection_index, connection in enumerate(node_connections):
             edge_node_con, edge_weight = connection
-            connection_section = QtWidgets.QWidget()
-            connection_section_layout = QtWidgets.QHBoxLayout(connection_section)
-
-            node_to_connect_input = QtWidgets.QLineEdit(edge_node_con)
-            edge_weight_input = QtWidgets.QLineEdit()
-            edge_weight_input.setValidator(QtGui.QDoubleValidator())
-            edge_weight_input.setText(str(edge_weight))
-
-            connection_section_layout.addWidget(node_to_connect_input)
-            connection_section_layout.addWidget(edge_weight_input)
-
+            connection_section = self.create_node_connections(node_index, connection_index, edge_node_con, edge_weight)
             node_config_layout.addWidget(connection_section, connection_index, 1)
+
+        # botones de añadir edge
+        add_edge_section = QtWidgets.QWidget()
+        add_edge_layout = QtWidgets.QHBoxLayout(add_edge_section)
+
+        # botón
+        add_edge_layout.addStretch()
+        add_edge_button = QtWidgets.QPushButton('Add Edge')
+        add_edge_button.setStyleSheet('background-color: green; color: white; font-size: 12px')
+        add_edge_button.setFixedWidth(70)
+        add_edge_button.clicked.connect(lambda x: add_edge())
+        add_edge_layout.addWidget(add_edge_button)
+
+        node_config_layout.addWidget(add_edge_section, len(node_connections), 1)
 
         node_config_layout.addWidget(node_name_edit, 0, 0)
 
         return node_config_section
+
+    def create_node_connections(self, node_index, edge_index, edge_node_con, edge_weight):
+        def update_edge_node_connector(edge_node_name: str):
+            self.main_window_controller.update_edge_name(node_index, edge_index, edge_node_name)
+
+        def update_edge_weight(new_weight):
+            self.main_window_controller.update_edge_weight(node_index, edge_index, float(new_weight))
+
+        connection_section = QtWidgets.QWidget()
+        connection_section_layout = QtWidgets.QHBoxLayout(connection_section)
+
+        node_to_connect_input = QtWidgets.QLineEdit(edge_node_con)
+        node_to_connect_input.textChanged.connect(lambda v: update_edge_node_connector(v))
+
+        edge_weight_input = QtWidgets.QLineEdit()
+        edge_weight_input.setValidator(QtGui.QDoubleValidator())
+        edge_weight_input.setText(str(edge_weight))
+        edge_weight_input.textChanged.connect(lambda v: update_edge_weight(v))
+
+        connection_section_layout.addWidget(node_to_connect_input)
+        connection_section_layout.addWidget(edge_weight_input)
+
+        return connection_section

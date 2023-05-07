@@ -20,15 +20,68 @@ class GraphForm:
                 new_form.append(node_inf)
 
         self.nodes_form = new_form
-        print(self.nodes_form)
 
     def update_node_connections(self, node_index: int, new_connections: (str, float)):
-        new_form: list[(str, (str, float))] = []
+        new_form: list[(str, [(str, float)])] = []
 
         for node_i, node_inf in enumerate(self.nodes_form):
             if node_index == node_i:
                 node_name, _ = node_inf
                 new_form.append((node_name, new_connections))
+            else:
+                new_form.append(node_inf)
+
+        self.nodes_form = new_form
+
+    def update_edge_weight(self, node_index: int, edge_index: int, new_weight: float):
+        new_form: list[(str, [(str, float)])] = []
+
+        for node_i, node_inf in enumerate(self.nodes_form):
+            if node_i == node_index:
+                node_name, node_connections = node_inf
+
+                new_connections = []
+                for con_index, con in enumerate(node_connections):
+                    if con_index == edge_index:
+                        con_node, _ = con
+                        new_connections.append((con_node, new_weight))
+                    else:
+                        new_connections.append(con)
+
+                new_form.append((node_name, new_connections))
+            else:
+                new_form.append(node_inf)
+
+        self.nodes_form = new_form
+
+    def update_edge_name(self, node_index: int, edge_index: int, edge_node_name: str):
+        new_form: list[(str, [(str, float)])] = []
+
+        for node_i, node_inf in enumerate(self.nodes_form):
+            if node_i == node_index:
+                node_name, node_connections = node_inf
+
+                new_connections = []
+                for con_index, con in enumerate(node_connections):
+                    if con_index == edge_index:
+                        _, con_weight = con
+                        new_connections.append((edge_node_name, con_weight))
+                    else:
+                        new_connections.append(con)
+
+                new_form.append((node_name, new_connections))
+            else:
+                new_form.append(node_inf)
+
+        self.nodes_form = new_form
+
+    def add_node_edge(self, node_index: int):
+        new_form: list[(str, [(str, float)])] = []
+
+        for node_i, node_inf in enumerate(self.nodes_form):
+            if node_i == node_index:
+                node_name, node_connections = node_inf
+                new_form.append((node_name, node_connections + [('', '')]))
             else:
                 new_form.append(node_inf)
 

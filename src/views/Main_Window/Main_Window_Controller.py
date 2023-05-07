@@ -30,6 +30,15 @@ class MainWindowController:
         # crear la imagen del grafo creado por defecto
         self.save_graph_image('Init Graph')
 
+    def update_edge_weight(self, node_index: int, edge_index: int, new_weight: float):
+        self.graph_form.update_edge_weight(node_index, edge_index, new_weight)
+
+    def update_edge_name(self, node_index: int, edge_index: int, edge_node_name: str):
+        self.graph_form.update_edge_name(node_index, edge_index, edge_node_name)
+
+    def add_node_edge(self, node_index: int):
+        self.graph_form.add_node_edge(node_index)
+
     def get_selected_graph(self) -> (str, Graph):
         return list(self.graphs.items())[self.selected_graph]
 
