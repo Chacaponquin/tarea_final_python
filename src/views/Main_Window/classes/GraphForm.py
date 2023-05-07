@@ -53,8 +53,6 @@ class GraphForm:
             else:
                 new_form.append(node_inf)
 
-        self.nodes_form = new_form
-
     def update_edge_name(self, node_index: int, edge_index: int, edge_node_name: str):
         new_form: list[(str, [(str, float)])] = []
 
@@ -93,7 +91,9 @@ class GraphForm:
 
         new_nodes: list[GraphNode] = []
         for node in self.nodes_form:
-            pass
+            node_name, node_connections = node
+            n = GraphNode(node_name)
+
 
     def add_node(self):
         self.nodes_form.append(('', ''))
@@ -106,12 +106,6 @@ class GraphForm:
 
         # actualizar el formulario de nodos
         self.nodes_form = [(node.label, [(edge.node.label, edge.weight) for edge in node.edge_list]) for node in graph.node_list]
-        print(self.nodes_form)
-
-    def get_node_connections_string(self, node: GraphNode) -> str:
-        labels_list: list[str] = list(map(lambda n: n.label, node.get_adjacents_nodes()))
-
-        return ', '.join(labels_list)
 
     def update_graph(self):
         pass
