@@ -11,9 +11,6 @@ class FormSection:
         # controller
         self.main_window_controller = main_window_controller
 
-        # añadir signal
-        self.main_window_controller.signals.updateNodesFormSignal.connect(lambda x: self.updateSection())
-
         # create section
         self.button_section = QtWidgets.QWidget()
         self.button_layout = QtWidgets.QVBoxLayout(self.button_section)

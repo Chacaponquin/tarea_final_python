@@ -9,7 +9,13 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
 
         self.main_window_controller = MainWindowController()
+
+        self.main_window_controller.signals.updateGraphsSignal.connect(lambda x: self.update_graphs())
+
         self.init_ui()
+
+    def update_graphs(self):
+        print('Buenas')
 
     def init_ui(self):
         # Configurar la ventana
