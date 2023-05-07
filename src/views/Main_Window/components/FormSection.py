@@ -76,9 +76,9 @@ class FormSection:
         try:
             self.main_window_controller.update_graph_form()
         except EmptyNodeLabelException:
-            print('Nodo vacio')
-        except:
-            print('Otro error')
+            QtWidgets.QMessageBox.critical(self.button_section, 'Error', 'No pueden existir nodos sin nombre.')
+        except Exception as err:
+            print(err)
 
     def add_node_action(self):
         self.main_window_controller.add_node_form()
