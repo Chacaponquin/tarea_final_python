@@ -111,18 +111,24 @@ La carpeta hasta ahora tiene dos sub-carpetas que pertenecen a cada módulo. En 
 - ✅ Hacer el método dentro de `Graph` para poder hacer el recorrido a lo ancho. **Creo que lo mejor seria que devolviera un array con el nombre de cada nodo que recorre**
 - ✅ Crear unos cuantos archivos `.txt` dentro de la carpeta `src/modules/file_reader/data` que sean datos de prueba para extraer grafos de ellos.
 - ✅ Crear test que verifiquen que se está haciendo bien el recorrido a lo ancho.
+- ⭕ Crear excepciones propias para cada caso de error que pueda devolver los procesos del grafo
+- ⭕ Validar el formulario de los nodos (en `FormSection.update_gaph_section`), hay que mostrar un mensaje con la información del error en caso de que haya algún error **(ya está mas menos adelantado sólo hay que fijarse en lo que está hecho)** 
+- ⭕ Convertir el input text (`QLineText`) que indica los nodos a los que se puede conectar la arista en un Dropdown con los nodos posibles a los que se puede conectar **(La función que crea esto está en `FormSection.create_node_connections`)**
 
 ### 🐈 Tareas de Amaya 
 - ✅ Crear los métodos para importar y exportar en txt los grafos en `File_Reader_Services`.
 - ✅ Crear en `Graph` un método para recorrer en profundidad. **Creo que lo mejor seria que devolviera un array con el nombre de cada nodo que recorre**
 - ✅ Crear archivos txt dentro de la carpeta `src/modules/file_reader/data` (pueden ser con patrones erroneos).
 - ⭕ Crear tests para verificar que se importa bien un grafo, y en caso de importarlo mal lanzar una excepción que se pueda identificar
+- ⭕ Crear excepciones propias para cada error posible a la hora de importar y exportar txts. 
+- ⭕ Añadir funcionalidad al botón de Importar que se encuentra en `MenuBar`, o sea hacer la funcionalidad de importar 1 o varios txts y convertirlos en grafos. **Importante detectar los errores y mostrar un mensaje emergente en caso de existir uno al importar**
 
 ### 🦍 Tareas de Héctor
-- ⭕ Crear la interfaz del `Main_Window`.
-- ⭕ Implementar los controladores dentro de las interfaces.
-- ⭕ Crear en `Graph_Services` los métodos para insertar, eliminar y modificar los nodos de un grafo.
-- ⭕ Crear la representación del grafo en la pantalla.
+- ✅ Crear la interfaz del `Main_Window`.
+- ✅ Implementar los controladores dentro de las interfaces.
+- ✅ Crear en `Graph_Services` los métodos para insertar, eliminar y modificar los nodos de un grafo.
+- ✅ Crear la representación del grafo en la pantalla.
+- ⭕ Intentar no morir intentando hacer la interfaz en la mierda de **PyQt**
 
 > ### 😹 Chistecillo
 > Qué le dice una nariz a un pañuelo? Me zuenas

@@ -1,12 +1,18 @@
 from src.modules.graph.classes.GraphEdge import GraphEdge
-
+from src.modules.graph.exceptions import EmptyNodeLabelException
 
 
 class GraphNode:
     # label es un string
     def __init__(self, label: str):
-        self.label = label
+        self.label = self.validate_label(label)
         self.edge_list: list[GraphEdge] = []
+
+    def validate_label(self, label) -> str:
+        if label == '':
+            raise EmptyNodeLabelException()
+        else:
+            return label
 
     def __str__(self):
         return self.label

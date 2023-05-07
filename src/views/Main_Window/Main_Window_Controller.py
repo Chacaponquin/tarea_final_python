@@ -1,34 +1,76 @@
 from src.modules.graph.services import GraphServices
 from src.modules.file_reader.services import FileReaderServices
 from src.modules.graph.classes import Graph, GraphNode
+from .classes import GraphForm
+from PyQt6 import QtCore
+
+
+class Signals(QtCore.QObject):
+    updateGraphsSignal = QtCore.pyqtSignal()
 
 
 class MainWindowController:
     def __init__(self):
+        # signals
+        self.signals = Signals()
+
+        # services
         self.graph_services = GraphServices()
         self.file_reader_services = FileReaderServices()
 
         # lista de todos los grafos utilizados
-        self.graphs: dict = {'Init Graph': self.create_default_graph()}
+        self.graphs: list[dict] = [{'name': 'Init Graph', 'graph': self.create_default_graph()}]
 
-        # crear la imagen del grafo creado por defecto
-        self.save_graph_image('Init Graph')
+        # índice del grafo seleccionado
+        self.selected_graph = 0
 
-    def get_graph_by_index(self, index: int) -> (str, Graph):
-        return list(self.graphs.items())[index]
+        # selected graph form
+        self.graph_form = GraphForm(self.get_selected_graph())
 
-    def get_node_connections_string(self, node: GraphNode) -> str:
-        labels_list: list[str] = list(map(lambda n: n.label, node.get_adjacents_nodes()))
+        # crear la imagen de todos los grafos (al principio solo hay uno)
+        self.save_all_graphs()
 
-        return ', '.join(labels_list)
+    def update_edge_weight(self, node_index: int, edge_index: int, new_weight: float):
+        self.graph_form.update_edge_weight(node_index, edge_index, new_weight)
+
+    def update_edge_name(self, node_index: int, edge_index: int, edge_node_name: str):
+        self.graph_form.update_edge_name(node_index, edge_index, edge_node_name)
+
+    def save_all_graphs(self):
+        for graph in self.graphs:
+            self.save_graph_image(graph['name'])
+
+    def add_node_edge(self, node_index: int):
+        self.graph_form.add_node_edge(node_index)
+
+    def get_selected_graph(self) -> (str, Graph):
+        graph_inf = self.graphs[self.selected_graph]
+        return graph_inf['name'], graph_inf['graph']
+
+    def update_graph_form(self):
+        # crear el nuevo grafo a guardar con la información del grafo
+        new_graph = self.graph_form.update_nodes_form()
+
+        # actualizar el grafo seleccionado
+        selected_graph_name, _ = self.get_selected_graph()
+        for graph_inf in self.graphs:
+            if graph_inf['name'] == selected_graph_name:
+                graph_inf['graph'] = new_graph
+
+        # guardar de nuevo todas las imágenes de los grafos
+        self.save_all_graphs()
 
     # método para guardar uno de los grafos guardados en una imagen
     def save_graph_image(self, graph_name: str):
-        save_graph = self.graphs[graph_name]
-        self.file_reader_services.export_graph_to_image(save_graph, graph_name)
+        for graph in self.graphs:
+            if graph['name'] == graph_name:
+                self.file_reader_services.export_graph_to_image(graph['graph'], graph_name)
 
     def get_graph_image_route(self, graph_name: str) -> str:
         return FileReaderServices.create_graph_image_route(graph_name)
+
+    def add_node_form(self):
+        self.graph_form.add_node()
 
     # método para crear el primer grafo que se muestra en la pantalla
     def create_default_graph(self) -> Graph:
@@ -50,5 +92,19 @@ class MainWindowController:
         new_graph.connect(node_b.label, node_c.label, 2)
 
         return new_graph
+
+    def import_txts(self, file_routes: list[str]):
+        try:
+            for file in file_routes:
+                new_graph = self.file_reader_services.import_graph_txt(file)
+                print(new_graph)
+        except:
+            print('Error')
+
+    def add_new_graph(self):
+        self.graphs.append({'name': f'New Graph{len(self.graphs) + 1}', 'graph': self.create_default_graph()})
+        self.save_all_graphs()
+        # self.signals.updateGraphsSignal.emit()
+        print(self.graphs)
 
 

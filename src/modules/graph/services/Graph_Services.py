@@ -21,7 +21,7 @@ class GraphServices:
         return graph
 
     @staticmethod
-    def graph_to_matrix(graph):
+    def graph_to_matrix(graph: Graph):
         matrix = np.zeros([len(graph.node_list), len(graph.node_list)])
         i = 0
         while i < len(graph.node_list):
@@ -33,4 +33,6 @@ class GraphServices:
                 j = j + 1
             i = i + 1
         return matrix
+
+
 

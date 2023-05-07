@@ -1,5 +1,6 @@
 from src.modules.graph.classes.GraphNode import GraphNode
 from queue import Queue
+from src.modules.graph.exceptions import DuplicateNodeException, NodeConnectToItself
 
 
 class Graph:
@@ -11,7 +12,7 @@ class Graph:
         if node is None:
             self.node_list.append(GraphNode(label))
         else:
-            raise ValueError(f"Ya existe un nodo con el identificador {label} en el grafo")
+            raise DuplicateNodeException(label)
         return node is None
 
     # Retorna un nodo dado un label o None si no existe el nodo
@@ -43,7 +44,7 @@ class Graph:
     # en dependencia de si fue posible o no conectar los nodos
     def connect(self, label_1: str, label_2: str, weight: float):
         if label_1 == label_2:
-            raise ValueError(f"Un nodo no se puede conectar consigo mismo")
+            raise NodeConnectToItself(label_1)
         else:
             node_1 = self.get_node(label_1)
             if node_1 is None:
@@ -52,8 +53,6 @@ class Graph:
                 node_2 = self.get_node(label_2)
                 if node_2 is None:
                     raise ValueError(f"No existe el nodo con la etiqueta {label_2} en el grafo")
-                elif not isinstance(weight, int):
-                    raise TypeError("El peso de la arista debe ser un entero")
         return node_1.add_edge(node_2, weight)
 
     # Conecta dos nodos del grafo
