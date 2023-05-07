@@ -125,16 +125,20 @@ class Graph:
                 nodes.append(n.label)
         return nodes
 
-    def get_depth_first_search(self, node: GraphNode):
+    # se utiliza un arreglo para guardar los nodos que se vayan visitando
+    # se llama la función recursiva depth_first_search_util
+    # la función añade al nodo a la lista visited de no estar ya en ella
+    # repite el proceso para todos los nodos adyacentes
+    def depth_first_search(self, node: GraphNode):
         visited = []
         if len(node.edge_list) > 0:
-            self.depth_first_search(node, visited)
+            self.depth_first_search_util(node, visited)
         return visited
 
-    def depth_first_search(self, node: GraphNode, visited: list[str]):
+    def depth_first_search_util(self, node: GraphNode, visited: list[str]):
         if node.label not in visited:
             visited.append(node.label)
         for edge in node.edge_list:
             if edge.node.label not in visited:
-                self.depth_first_search(edge.node, visited)
+                self.depth_first_search_util(edge.node, visited)
 

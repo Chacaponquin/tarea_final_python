@@ -113,9 +113,9 @@ La carpeta hasta ahora tiene dos sub-carpetas que pertenecen a cada módulo. En 
 - ✅ Crear test que verifiquen que se está haciendo bien el recorrido a lo ancho.
 
 ### 🐈 Tareas de Amaya 
-- ⭕ Crear los métodos para importar y exportar en txt los grafos en `File_Reader_Services`.
-- ⭕ Crear en `Graph` un método para recorrer en profundidad. **Creo que lo mejor seria que devolviera un array con el nombre de cada nodo que recorre**
-- ⭕ Crear archivos txt dentro de la carpeta `src/modules/file_reader/data` (pueden ser con patrones erroneos).
+- ✅ Crear los métodos para importar y exportar en txt los grafos en `File_Reader_Services`.
+- ✅ Crear en `Graph` un método para recorrer en profundidad. **Creo que lo mejor seria que devolviera un array con el nombre de cada nodo que recorre**
+- ✅ Crear archivos txt dentro de la carpeta `src/modules/file_reader/data` (pueden ser con patrones erroneos).
 - ⭕ Crear tests para verificar que se importa bien un grafo, y en caso de importarlo mal lanzar una excepción que se pueda identificar
 
 ### 🦍 Tareas de Héctor

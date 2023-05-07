@@ -1,7 +1,11 @@
+import numbers
+
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
+from src.modules.file_reader.exceptions.Empty_File_Error import EmptyFileError
+from src.modules.file_reader.exceptions.File_Formatting_Error import FileFormattingError
 from src.modules.graph.classes import Graph, GraphNode, GraphEdge
 from src.modules.graph.services import GraphServices
 from src.modules.file_reader.constants import GRAPH_IMAGES_PATH,GRAPH_TXT_PATH
@@ -11,21 +15,42 @@ class FileReaderServices:
     @staticmethod
     def import_graph(path):
         with open(path, 'r') as file:
-            labels = file.readline().split(" ")
-            matrix = np.zeros([len(file.readline().split(" ")), len(file.readline().split(" "))])
-            i = 0
-            for line in file.readlines(3):
-                if line.strip():
-                    matrix[i] = line.split(" ")
-                    i = i + 1
-        return GraphServices.matrix_to_graph(matrix, labels)
+            if len(file.readlines()) <= 0:
+                raise EmptyFileError()
+            elif len(file.readlines()) < 3:
+                raise FileFormattingError("Hay muy pocas líneas para la correcta representación de la matriz")
 
-    @staticmethod
-    def import_graph_txt(path):
-        matrix = np.loadtxt(path, skiprows=2, dtype=int)
-        with open(path, 'r') as file:
-            labels = file.readline().split(" ")
-        return GraphServices.matrix_to_graph(matrix, labels)
+            else:
+                if file.readline().strip():
+                    labels = file.readline().split(" ")
+                    matrix = np.zeros([len(file.readline().split(" ")), len(file.readline().split(" "))])
+
+                    i = 0
+                    for line in file.readlines(3):
+                        if line.strip():
+                            values = line.split(" ")
+                            if len(values) < len(labels):
+                                raise FileFormattingError(f"Faltan datos en la fila {i} de la matriz")
+                            elif len(values) > len(labels):
+                                raise FileFormattingError(f"Hay datos de más en la fila {i} de la matriz")
+                            if values[i] != 0:
+                                raise FileFormattingError(f"La diagonal principal en la fila {i} tiene un valor distinto "
+                                                          f"de 0")
+                            if values.__contains__(not numbers):
+                                raise FileFormattingError(f"Existe un valor en la fila {i} que no es un número")
+                            matrix[i] = values
+                            i = i + 1
+                        else:
+                            raise FileFormattingError(f"La línea correspondiente a la fila {i} de la matriz está vacía")
+
+                    if i < len(labels):
+                        raise FileFormattingError("La cantidad de filas de la matriz es menor que la cantidad de nodos")
+                    elif i > len(labels):
+                        raise FileFormattingError("La cantidad de filas de la matriz es mayor que la cantidad de nodos")
+                else:
+                    raise FileFormattingError("La primera línea del archivo está vacía")
+
+            return GraphServices.matrix_to_graph(matrix, labels)
 
     @staticmethod
     def export_graph(graph: Graph, path):
@@ -97,3 +122,4 @@ class FileReaderServices:
                 save_graph.add_edge(node_label, next_node_label, weight=edge.weight)
 
         return save_graph
+
