@@ -1,6 +1,6 @@
 from src.modules.graph.classes.GraphNode import GraphNode
 from queue import Queue
-from src.modules.graph.exceptions import DuplicateNodeException
+from src.modules.graph.exceptions import DuplicateNodeException, NodeConnectToItself
 
 
 class Graph:
@@ -44,7 +44,7 @@ class Graph:
     # en dependencia de si fue posible o no conectar los nodos
     def connect(self, label_1: str, label_2: str, weight: float):
         if label_1 == label_2:
-            raise ValueError(f"Un nodo no se puede conectar consigo mismo")
+            raise NodeConnectToItself(label_1)
         else:
             node_1 = self.get_node(label_1)
             if node_1 is None:

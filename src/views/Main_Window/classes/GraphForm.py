@@ -2,8 +2,8 @@ from src.modules.graph.classes import GraphNode, Graph
 
 
 class GraphForm:
-    def __init__(self, selected_graph: Graph):
-        self.selected_graph = selected_graph
+    def __init__(self, selected_graph: (str, Graph)):
+        self.selected_graph: (str, Graph) = selected_graph
 
         self.graph_name: str = ''
         self.nodes_form: list[(str, [(str, float)])] = []
@@ -102,6 +102,7 @@ class GraphForm:
                 con_node, con_weight = con
                 new_graph.connect(node_name, con_node, con_weight)
 
+        return new_graph
 
     def add_node(self):
         self.nodes_form.append(('', ''))
