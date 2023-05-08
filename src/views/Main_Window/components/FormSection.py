@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
 from src.views.Main_Window.classes.GraphForm import GraphForm
-from src.modules.graph.exceptions import EmptyNodeLabelException, DuplicateNodeException,NodeConnectToItself
+from src.modules.graph.exceptions import EmptyNodeLabelException, DuplicateNodeException,NodeConnectToItself, ConnectionAlreadyExistsException
 
 
 class FormSection:
@@ -46,7 +46,14 @@ class FormSection:
 
     def create_options_buttons(self):
         def export_graph_action():
-            pass
+            try:
+                # selecting file path
+                file_path, _ = QtWidgets.QFileDialog.getSaveFileName(self.button_section, "Save Image", "Graph",
+                                                          "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+
+                print(file_path)
+            except Exception as error:
+                print(error)
 
         def width_traversal_action():
             try:
@@ -121,6 +128,8 @@ class FormSection:
         except NodeConnectToItself as error:
             QtWidgets.QMessageBox.critical(self.button_section, 'Error',
                                            f'El nodo {error.node_label} no se puede conectar consigo mismo.')
+        except ConnectionAlreadyExistsException as error:
+            QtWidgets.QMessageBox.critical(self.button_section, 'Error', error.message)
         except Exception as err:
             print(err)
 

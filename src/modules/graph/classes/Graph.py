@@ -26,6 +26,7 @@ class Graph:
                 found = True
             else:
                 i = i + 1
+
         return node
 
     # Retorna True o False en dependencia de si se pudo eliminar la arista o no
@@ -38,6 +39,7 @@ class Graph:
             self.node_list.remove(node)
         else:
             raise ValueError(f"No existe el nodo con la etiqueta {label} en el grafo")
+
         return node is not None
 
     # Conecta dos nodos del grafo(Recibe las etiquetas) retorna True o False
@@ -53,6 +55,7 @@ class Graph:
                 node_2 = self.get_node(label_2)
                 if node_2 is None:
                     raise ValueError(f"No existe el nodo con la etiqueta {label_2} en el grafo")
+
         return node_1.add_edge(node_2, weight)
 
     # Conecta dos nodos del grafo

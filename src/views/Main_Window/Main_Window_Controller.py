@@ -40,13 +40,7 @@ class MainWindowController:
             self.save_graph_image(graph['name'])
 
     def get_node_posible_connections(self) -> list[str]:
-        return_nodes: list[str] = []
-
-        for node in self.graph_form.nodes_form:
-            node_name, _ = node
-            return_nodes.append(node_name)
-
-        return return_nodes
+        return self.graph_form.get_node_posible_connections()
 
     def add_node_edge(self, node_index: int):
         self.graph_form.add_node_edge(node_index)

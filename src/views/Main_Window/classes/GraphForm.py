@@ -53,6 +53,8 @@ class GraphForm:
             else:
                 new_form.append(node_inf)
 
+        self.nodes_form = new_form
+
     def update_edge_name(self, node_index: int, edge_index: int, edge_node_name: str):
         new_form: list[(str, [(str, float)])] = []
 
@@ -80,11 +82,23 @@ class GraphForm:
         for node_i, node_inf in enumerate(self.nodes_form):
             if node_i == node_index:
                 node_name, node_connections = node_inf
-                new_form.append((node_name, node_connections + [('', '')]))
+
+                # conexiones posibles
+                posible_connections = self.get_node_posible_connections()
+                new_form.append((node_name, node_connections + [(posible_connections[0], '0')]))
             else:
                 new_form.append(node_inf)
 
         self.nodes_form = new_form
+
+    def get_node_posible_connections(self) -> list[str]:
+        return_nodes: list[str] = []
+
+        for node in self.nodes_form:
+            node_name, _ = node
+            return_nodes.append(node_name)
+
+        return return_nodes
 
     def update_nodes_form(self):
         new_graph = Graph()

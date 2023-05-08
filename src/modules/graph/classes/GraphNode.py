@@ -1,5 +1,5 @@
 from src.modules.graph.classes.GraphEdge import GraphEdge
-from src.modules.graph.exceptions import EmptyNodeLabelException
+from src.modules.graph.exceptions import EmptyNodeLabelException, ConnectionAlreadyExistsException
 
 
 class GraphNode:
@@ -24,7 +24,7 @@ class GraphNode:
     def delete_edge(self, node):
         edge = self.get_edge(node)
         if edge is None:
-            raise ValueError(f"No existe una arista entre {self.label} y {node.label}")
+            raise ConnectionAlreadyExistsException(self.label, node.label)
         else:
             self.edge_list.remove(edge)
         return edge is not None
@@ -46,7 +46,7 @@ class GraphNode:
     def add_edge(self, node, weight: float):
         edge = self.get_edge(node)
         if edge is not None:
-            raise ValueError(f"Ya existe una arista entre {self.label} y {node.label}")
+            raise ConnectionAlreadyExistsException(self.label, node.label)
         else:
             self.edge_list.append(GraphEdge(node, weight))
         return edge is None
