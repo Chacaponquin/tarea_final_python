@@ -1,7 +1,5 @@
 from PyQt6 import QtWidgets, QtGui
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 
 class ImageSection:
@@ -20,11 +18,16 @@ class ImageSection:
         # actualizar los grafos
         self.update_graphs()
 
+        self.main_window_controller.signals.updateGraphsSignal.connect(lambda x: self.update_graphs_action())
+
         # Añadir el label a la sección de la imagen
         self.image_layout.addWidget(self.image_tab)
 
         # add to layout
         self.parent_layout.addWidget(self.image_tab, 0, 0)
+
+    def update_graphs_action(self):
+        print('Buenas')
 
     def update_graphs(self):
         for graph in self.main_window_controller.graphs:

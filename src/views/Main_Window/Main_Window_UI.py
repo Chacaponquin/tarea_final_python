@@ -3,23 +3,19 @@ from .Main_Window_Controller import MainWindowController
 from .components import FormSection, MenuBar, ImageSection
 
 
-class Signals(QtCore.QObject):
-    updateGraphsSignal = QtCore.pyqtSignal()
+
 
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.signals = Signals()
-        self.main_window_controller = MainWindowController(self.signals)
-
-        self.main_window_controller.signals.updateGraphsSignal.connect(lambda x: self.update_graphs())
+        self.main_window_controller = MainWindowController()
 
         self.init_ui()
 
-    def update_graphs(self):
-        print('Buenas')
+    def update_graphs_action(self):
+        self.main_window_controller.signals.updateGraphsSignal.emit()
 
     def init_ui(self):
         # Configurar la ventana

@@ -5,13 +5,14 @@ from .classes import GraphForm
 from PyQt6 import QtCore
 
 
-
+class Signals(QtCore.QObject):
+    updateGraphsSignal = QtCore.pyqtSignal()
 
 
 class MainWindowController:
-    def __init__(self, signals):
+    def __init__(self):
         # signals
-        self.signals = signals
+        self.signals = Signals()
 
         # services
         self.graph_services = GraphServices()
