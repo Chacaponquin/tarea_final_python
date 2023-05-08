@@ -1,5 +1,6 @@
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
 from PyQt6 import QtWidgets
+from src.modules.file_reader.exceptions import FileFormattingError, EmptyFileError
 
 
 class MenuBar:
@@ -40,8 +41,11 @@ class MenuBar:
         dialog.setNameFilter("Text files (*.txt)")
         dialog.setViewMode(QtWidgets.QFileDialog.ViewMode.List)
 
-        if dialog.exec():
-            filenames = dialog.selectedFiles()
-            print(filenames)
+        try:
+            if dialog.exec():
+                filenames = dialog.selectedFiles()
+                print(filenames)
 
-            self.main_window_controller.import_txts(filenames)
+                self.main_window_controller.import_txts(filenames)
+        except FileFormattingError as error:
+            QtWidgets.QMessageBox.critical(self.menubar, 'Error', str(error))

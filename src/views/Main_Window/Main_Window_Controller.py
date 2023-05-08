@@ -99,12 +99,9 @@ class MainWindowController:
         return new_graph
 
     def import_txts(self, file_routes: list[str]):
-        try:
-            for file in file_routes:
-                new_graph = self.file_reader_services.import_graph_txt(file)
-                print(new_graph)
-        except:
-            print('Error')
+        for file in file_routes:
+            new_graph = self.file_reader_services.import_graph(file)
+            print(new_graph)
 
     def add_new_graph(self):
         self.graphs.append({'name': f'New Graph{len(self.graphs) + 1}', 'graph': self.create_default_graph()})

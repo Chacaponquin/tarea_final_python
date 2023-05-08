@@ -4,8 +4,7 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
-from src.modules.file_reader.exceptions.Empty_File_Error import EmptyFileError
-from src.modules.file_reader.exceptions.File_Formatting_Error import FileFormattingError
+from src.modules.file_reader.exceptions import EmptyFileError, FileFormattingError
 from src.modules.graph.classes import Graph, GraphNode, GraphEdge
 from src.modules.graph.services import GraphServices
 from src.modules.file_reader.constants import GRAPH_IMAGES_PATH,GRAPH_TXT_PATH
