@@ -5,14 +5,13 @@ from .classes import GraphForm
 from PyQt6 import QtCore
 
 
-class Signals(QtCore.QObject):
-    updateGraphsSignal = QtCore.pyqtSignal()
+
 
 
 class MainWindowController:
-    def __init__(self):
+    def __init__(self, signals):
         # signals
-        self.signals = Signals()
+        self.signals = signals
 
         # services
         self.graph_services = GraphServices()
@@ -39,6 +38,15 @@ class MainWindowController:
     def save_all_graphs(self):
         for graph in self.graphs:
             self.save_graph_image(graph['name'])
+
+    def get_node_posible_connections(self) -> list[str]:
+        return_nodes: list[str] = []
+
+        for node in self.graph_form.nodes_form:
+            node_name, _ = node
+            return_nodes.append(node_name)
+
+        return return_nodes
 
     def add_node_edge(self, node_index: int):
         self.graph_form.add_node_edge(node_index)
@@ -68,6 +76,9 @@ class MainWindowController:
 
     def get_graph_image_route(self, graph_name: str) -> str:
         return FileReaderServices.create_graph_image_route(graph_name)
+
+    def get_graph_plot_figure(self, graph: Graph):
+        return self.graph_services.get_graph_plot_figure(graph)
 
     def add_node_form(self):
         self.graph_form.add_node()
@@ -105,6 +116,5 @@ class MainWindowController:
         self.graphs.append({'name': f'New Graph{len(self.graphs) + 1}', 'graph': self.create_default_graph()})
         self.save_all_graphs()
         # self.signals.updateGraphsSignal.emit()
-        print(self.graphs)
 
 

@@ -39,9 +39,33 @@ class FormSection:
         # añadir espaciado
         self.button_layout.addStretch()
 
-        self.button_section.setLayout(self.button_layout)
+        # añadir botones de exportar y de recorrido
+        self.create_options_buttons()
 
         self.parent_layout.addWidget(self.button_section, 0, 1)
+
+    def create_options_buttons(self):
+        def export_graph_action():
+            pass
+
+        options_buttons_section = QtWidgets.QWidget()
+        options_buttons_layout = QtWidgets.QVBoxLayout(options_buttons_section)
+
+        export_button = QtWidgets.QPushButton('Export')
+        export_button.clicked.connect(lambda x: export_graph_action())
+        export_button.setStyleSheet('font-size: 16px')
+
+        r_a_button = QtWidgets.QPushButton('Recorrido a lo ancho')
+        r_a_button.setStyleSheet('font-size: 16px')
+
+        r_pf_button = QtWidgets.QPushButton('Recorrido en rpofundidad')
+        r_pf_button.setStyleSheet('font-size: 16px')
+
+        options_buttons_layout.addWidget(r_a_button)
+        options_buttons_layout.addWidget(r_pf_button)
+        options_buttons_layout.addWidget(export_button)
+
+        self.button_layout.addWidget(options_buttons_section)
 
     def paint_form_title_section(self):
         nodes_title = QtWidgets.QLabel()
@@ -92,6 +116,7 @@ class FormSection:
     def paint_node_form(self):
         nodes_section = QtWidgets.QWidget()
         nodes_section_layout = QtWidgets.QVBoxLayout()
+        nodes_section_layout.setSpacing(0)
         nodes_section.setLayout(nodes_section_layout)
 
         # buscar el grafo seleccionado
@@ -108,13 +133,12 @@ class FormSection:
     def create_node_form_section(self, node_index: int, node_name: str, node_connections: list[(str, float)], graph_form: GraphForm):
         node_config_section = QtWidgets.QWidget()
         node_config_layout = QtWidgets.QGridLayout(node_config_section)
+        node_config_layout.setSpacing(0)
         node_config_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
 
         def change_node_name(name: str):
             graph_form.update_node_name(node_index, name)
-
-        def change_node_connection(connections: (str, float)):
-            graph_form.update_node_connections(node_index, connections)
+            self.update_section()
 
         def add_edge():
             self.main_window_controller.add_node_edge(node_index)
@@ -151,17 +175,13 @@ class FormSection:
         return node_config_section
 
     def create_node_connections(self, node_index, edge_index, edge_node_con, edge_weight):
-        def update_edge_node_connector(edge_node_name: str):
-            self.main_window_controller.update_edge_name(node_index, edge_index, edge_node_name)
-
         def update_edge_weight(new_weight):
             self.main_window_controller.update_edge_weight(node_index, edge_index, float(new_weight))
 
         connection_section = QtWidgets.QWidget()
         connection_section_layout = QtWidgets.QHBoxLayout(connection_section)
 
-        node_to_connect_input = QtWidgets.QLineEdit(edge_node_con)
-        node_to_connect_input.textChanged.connect(lambda v: update_edge_node_connector(v))
+        node_to_connect_input = self.create_node_edge_posible_connections(node_index, edge_index, edge_node_con)
 
         edge_weight_input = QtWidgets.QLineEdit()
         edge_weight_input.setValidator(QtGui.QDoubleValidator())
@@ -172,3 +192,20 @@ class FormSection:
         connection_section_layout.addWidget(edge_weight_input)
 
         return connection_section
+
+    def create_node_edge_posible_connections(self, node_index: int, edge_index: int, edge_node_con: str):
+        def update_edge_node_connector(edge_node_name: str):
+            self.main_window_controller.update_edge_name(node_index, edge_index, edge_node_name)
+
+        posible_connections = self.main_window_controller.get_node_posible_connections()
+
+        node_to_connect_input = QtWidgets.QComboBox()
+
+        for p_con in posible_connections:
+            node_to_connect_input.addItem(p_con)
+
+        node_to_connect_input.setCurrentText(edge_node_con)
+
+        node_to_connect_input.currentTextChanged.connect(lambda v: update_edge_node_connector(v))
+
+        return node_to_connect_input

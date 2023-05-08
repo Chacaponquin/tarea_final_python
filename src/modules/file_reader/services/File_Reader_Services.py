@@ -12,6 +12,9 @@ from src.modules.file_reader.constants import GRAPH_IMAGES_PATH,GRAPH_TXT_PATH
 
 
 class FileReaderServices:
+    def __init__(self):
+        self.graph_services = GraphServices()
+
     @staticmethod
     def import_graph(path):
         with open(path, 'r') as file:
@@ -66,10 +69,9 @@ class FileReaderServices:
                 str_row = str_row.replace(".", "")
                 file.write("".join(str_row) + "\n")
 
-    @staticmethod
-    def export_graph_to_image(graph: Graph, image_name: str):
+    def export_graph_to_image(self, graph: Graph, image_name: str):
         # convertir el grafo normal a un grafo de networkx
-        save_graph = FileReaderServices.convert_graph_to_nx_graph(graph)
+        save_graph = self.graph_services.convert_graph_to_nx_graph(graph)
 
         # crear la ruta de la imagen a exportar
         image_route = FileReaderServices.create_graph_image_route(image_name)
@@ -103,23 +105,5 @@ class FileReaderServices:
     def create_graph_txt_route(file_name: str) -> str:
         return f'{GRAPH_TXT_PATH}/{file_name}.png'
 
-    @staticmethod
-    def convert_graph_to_nx_graph(graph: Graph) -> nx.DiGraph:
-        all_graph_nodes: list[GraphNode] = graph.node_list
 
-        save_graph = nx.DiGraph()
-
-        for node in all_graph_nodes:
-            node_label = str(node.label)
-            save_graph.add_node(node_label)
-
-        for node in all_graph_nodes:
-            node_edges: list[GraphEdge] = node.edge_list
-            node_label = str(node.label)
-
-            for edge in node_edges:
-                next_node_label = str(edge.node.label)
-                save_graph.add_edge(node_label, next_node_label, weight=edge.weight)
-
-        return save_graph
 

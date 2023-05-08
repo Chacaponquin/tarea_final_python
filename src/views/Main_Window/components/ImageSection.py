@@ -1,6 +1,7 @@
 from PyQt6 import QtWidgets, QtGui
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
-import time
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 
 class ImageSection:
@@ -27,15 +28,13 @@ class ImageSection:
 
     def update_graphs(self):
         for graph in self.main_window_controller.graphs:
-            # Crear un label para mostrar la imagen
-            image_label = QtWidgets.QLabel()
-            image_label.setScaledContents(True)
-
             # ruta de la imagen (que es igual al nombre del grafo creado)
             image_route = self.main_window_controller.get_graph_image_route(graph['name'])
 
-            # mostrar imagen
+            # Crear un label para mostrar la imagen
+            image_label = QtWidgets.QLabel()
             pixmap = QtGui.QPixmap(image_route)
             image_label.setPixmap(pixmap)
+            image_label.setScaledContents(True)
 
             self.image_tab.addTab(image_label, graph['name'])

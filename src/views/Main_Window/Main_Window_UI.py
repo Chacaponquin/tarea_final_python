@@ -1,14 +1,18 @@
-from PyQt6 import QtWidgets, QtGui
-from .constants import COLORS
+from PyQt6 import QtWidgets, QtGui, QtCore
 from .Main_Window_Controller import MainWindowController
 from .components import FormSection, MenuBar, ImageSection
+
+
+class Signals(QtCore.QObject):
+    updateGraphsSignal = QtCore.pyqtSignal()
 
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.main_window_controller = MainWindowController()
+        self.signals = Signals()
+        self.main_window_controller = MainWindowController(self.signals)
 
         self.main_window_controller.signals.updateGraphsSignal.connect(lambda x: self.update_graphs())
 
