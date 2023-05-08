@@ -48,6 +48,19 @@ class FormSection:
         def export_graph_action():
             pass
 
+        def width_traversal_action():
+            try:
+                _, graph = self.main_window_controller.get_selected_graph()
+                traversal = graph.width_transversal(graph.node_list[0])
+
+                message = f'El recorrido a lo ancho del grafo es {", ".join(traversal)}'
+                QtWidgets.QMessageBox.about(self.button_section, 'Recorrido', message)
+            except Exception as error:
+                QtWidgets.QMessageBox.critical(self.button_section, 'Error', str(error))
+
+        def depht_traversal_action():
+            pass
+
         options_buttons_section = QtWidgets.QWidget()
         options_buttons_layout = QtWidgets.QVBoxLayout(options_buttons_section)
 
@@ -57,9 +70,11 @@ class FormSection:
 
         r_a_button = QtWidgets.QPushButton('Recorrido a lo ancho')
         r_a_button.setStyleSheet('font-size: 16px')
+        r_a_button.clicked.connect(lambda x: width_traversal_action())
 
-        r_pf_button = QtWidgets.QPushButton('Recorrido en rpofundidad')
+        r_pf_button = QtWidgets.QPushButton('Recorrido en profundidad')
         r_pf_button.setStyleSheet('font-size: 16px')
+        r_pf_button.clicked.connect(lambda x: depht_traversal_action())
 
         options_buttons_layout.addWidget(r_a_button)
         options_buttons_layout.addWidget(r_pf_button)

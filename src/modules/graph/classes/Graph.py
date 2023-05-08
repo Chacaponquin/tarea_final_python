@@ -87,8 +87,7 @@ class Graph:
     # se saca el primer nodo que se encuentra en la cola, se añade a visitados su label y se agregan a la cola
     # los nodos adyacentes no visitados
     # Retorna una lista con las etiquetas de cada nodo del grafo recorrido a lo ancho
-
-    def bfs(self, node: GraphNode):
+    def width_transversal(self, node: GraphNode):
         if node in self.node_list:
             queue = Queue()
             visited = []
@@ -105,6 +104,7 @@ class Graph:
                         queue.put(node_n)
         else:
             raise ValueError(f"No existe el nodo {node.label} en el grafo")
+
         return result
 
     # Retorna una lista con las etiquetas de los nodos aislados del grafo
@@ -116,7 +116,7 @@ class Graph:
 
         return nodes
 
-    # Retorna una lista con las etiquetas de los nodos que apuntan hacia un nodo pasado por párametro
+    # Retorna una lista con las etiquetas de los nodos que apuntan hacia un nodo pasado por parámetro
     def arrived_nodes(self, node: GraphNode):
         nodes = []
         for n in self.node_list:
