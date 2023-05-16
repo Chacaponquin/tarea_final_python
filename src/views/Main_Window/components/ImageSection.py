@@ -18,8 +18,6 @@ class ImageSection:
         # actualizar los grafos
         self.update_graphs()
 
-        self.main_window_controller.signals.updateGraphsSignal.connect(lambda x: self.update_graphs_action())
-
         # Añadir el label a la sección de la imagen
         self.image_layout.addWidget(self.image_tab)
 
@@ -27,9 +25,10 @@ class ImageSection:
         self.parent_layout.addWidget(self.image_tab, 0, 0)
 
     def update_graphs_action(self):
-        print('Buenas')
+        self.update_graphs()
 
     def update_graphs(self):
+        self.image_tab.clear()
         for graph in self.main_window_controller.graphs:
             # ruta de la imagen (que es igual al nombre del grafo creado)
             image_route = self.main_window_controller.get_graph_image_route(graph['name'])

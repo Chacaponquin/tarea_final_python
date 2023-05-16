@@ -200,7 +200,8 @@ class FormSection:
 
     def create_node_connections(self, node_index, edge_index, edge_node_con, edge_weight):
         def update_edge_weight(new_weight):
-            self.main_window_controller.update_edge_weight(node_index, edge_index, float(new_weight))
+            n = '0' if new_weight == '' else new_weight
+            self.main_window_controller.update_edge_weight(node_index, edge_index, float(n))
 
         connection_section = QtWidgets.QWidget()
         connection_section_layout = QtWidgets.QHBoxLayout(connection_section)

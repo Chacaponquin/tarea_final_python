@@ -2,17 +2,12 @@ from src.modules.graph.services import GraphServices
 from src.modules.file_reader.services import FileReaderServices
 from src.modules.graph.classes import Graph, GraphNode
 from .classes import GraphForm
-from PyQt6 import QtCore
-
-
-class Signals(QtCore.QObject):
-    updateGraphsSignal = QtCore.pyqtSignal()
+from .constants import VIEWS
 
 
 class MainWindowController:
-    def __init__(self):
-        # signals
-        self.signals = Signals()
+    def __init__(self, views):
+        self.views = views
 
         # services
         self.graph_services = GraphServices()
@@ -30,7 +25,7 @@ class MainWindowController:
         # crear la imagen de todos los grafos (al principio solo hay uno)
         self.save_all_graphs()
 
-    def update_edge_weight(self, node_index: int, edge_index: int, new_weight: float):
+    def update_edge_weight(self, node_index: int, edge_index: int, new_weight: float = 0):
         self.graph_form.update_edge_weight(node_index, edge_index, new_weight)
 
     def update_edge_name(self, node_index: int, edge_index: int, edge_node_name: str):
@@ -62,6 +57,9 @@ class MainWindowController:
 
         # guardar de nuevo todas las imágenes de los grafos
         self.save_all_graphs()
+
+        # actualizar image section
+        self.update_image_section()
 
     # método para guardar uno de los grafos guardados en una imagen
     def save_graph_image(self, graph_name: str):
@@ -104,9 +102,17 @@ class MainWindowController:
             new_graph = self.file_reader_services.import_graph(file)
             print(new_graph)
 
+    def update_image_section(self):
+        self.views[VIEWS.IMAGE_SECTION].update_graphs_action()
+
     def add_new_graph(self):
         self.graphs.append({'name': f'New Graph{len(self.graphs) + 1}', 'graph': self.create_default_graph()})
         self.save_all_graphs()
-        # self.signals.updateGraphsSignal.emit()
+
+        self.update_image_section()
+
+
+
+
 
 

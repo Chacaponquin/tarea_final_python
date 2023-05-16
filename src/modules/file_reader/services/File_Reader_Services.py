@@ -95,6 +95,7 @@ class FileReaderServices:
         # guardar imagen con matplotlib
         plt.axis("off")
         plt.savefig(image_route)
+        plt.close()
 
     @staticmethod
     def create_graph_image_route(image_name: str) -> str:
