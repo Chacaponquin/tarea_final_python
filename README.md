@@ -111,8 +111,8 @@ La carpeta hasta ahora tiene dos sub-carpetas que pertenecen a cada módulo. En 
 - ✅ Hacer el método dentro de `Graph` para poder hacer el recorrido a lo ancho. **Creo que lo mejor seria que devolviera un array con el nombre de cada nodo que recorre**
 - ✅ Crear unos cuantos archivos `.txt` dentro de la carpeta `src/modules/file_reader/data` que sean datos de prueba para extraer grafos de ellos.
 - ✅ Crear test que verifiquen que se está haciendo bien el recorrido a lo ancho.
-- ⭕ Crear excepciones propias para cada caso de error que pueda devolver los procesos del grafo
-- ⭕ Validar el formulario de los nodos (en `FormSection.update_gaph_section`), hay que mostrar un mensaje con la información del error en caso de que haya algún error **(ya está mas menos adelantado sólo hay que fijarse en lo que está hecho)** 
+- ✅ Crear excepciones propias para cada caso de error que pueda devolver los procesos del grafo
+- ✅ Validar el formulario de los nodos (en `FormSection.update_gaph_section`), hay que mostrar un mensaje con la información del error en caso de que haya algún error **(ya está mas menos adelantado sólo hay que fijarse en lo que está hecho)** 
 - ⭕ Convertir el input text (`QLineText`) que indica los nodos a los que se puede conectar la arista en un Dropdown con los nodos posibles a los que se puede conectar **(La función que crea esto está en `FormSection.create_node_connections`)**
 
 ### 🐈 Tareas de Amaya 

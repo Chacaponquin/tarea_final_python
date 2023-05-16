@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
 from src.views.Main_Window.classes.GraphForm import GraphForm
-from src.modules.graph.exceptions import EmptyNodeLabelException, DuplicateNodeException,NodeConnectToItself, ConnectionAlreadyExistsException
+from src.modules.graph.exceptions import EmptyNodeLabelException, DuplicateNodeException,NodeConnectToItself, ConnectionAlreadyExistsException, NotExistEdge, NotExistNode, NotAFloat
 
 
 class FormSection:
@@ -129,6 +129,12 @@ class FormSection:
             QtWidgets.QMessageBox.critical(self.button_section, 'Error',
                                            f'El nodo {error.node_label} no se puede conectar consigo mismo.')
         except ConnectionAlreadyExistsException as error:
+            QtWidgets.QMessageBox.critical(self.button_section, 'Error', error.message)
+        except NotExistEdge as error:
+            QtWidgets.QMessageBox.critical(self.button_section, 'Error', error.message)
+        except NotExistEdge as error:
+            QtWidgets.QMessageBox.critical(self.button_section, 'Error', error.message)
+        except NotAFloat as error:
             QtWidgets.QMessageBox.critical(self.button_section, 'Error', error.message)
         except Exception as err:
             print(err)
