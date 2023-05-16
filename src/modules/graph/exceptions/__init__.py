@@ -19,3 +19,23 @@ class ConnectionAlreadyExistsException(Exception):
         self.message = f'Ya existe una arista entre {node_1} y {node_2}'
         self.node_1 = node_1
         self.node_2 = node_2
+
+
+class NotExistNode(Exception):
+    def __init__(self, label: str):
+        self.message = f'No existe el nodo {label} en el grafo'
+        self.label = label
+
+
+class NotAFloat(Exception):
+    def __init__(self, label):
+        self.message = 'El peso de las aristas debe ser un número'
+        self.label = label
+
+
+class NotExistEdge(Exception):
+    def __init__(self, label_1: str, label_2: str):
+        self.message = f'No existe arista entre los nodos {label_1} y {label_2}'
+        self.label_1 = label_1
+        self.label_2 = label_2
+

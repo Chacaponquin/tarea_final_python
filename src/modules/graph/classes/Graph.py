@@ -1,6 +1,6 @@
 from src.modules.graph.classes.GraphNode import GraphNode
 from queue import Queue
-from src.modules.graph.exceptions import DuplicateNodeException, NodeConnectToItself
+from src.modules.graph.exceptions import DuplicateNodeException, NodeConnectToItself, NotExistNode
 
 
 class Graph:
@@ -38,7 +38,7 @@ class Graph:
                     node_n.delete_edge(node)
             self.node_list.remove(node)
         else:
-            raise ValueError(f"No existe el nodo con la etiqueta {label} en el grafo")
+            raise NotExistNode(label)
 
         return node is not None
 
@@ -50,11 +50,11 @@ class Graph:
         else:
             node_1 = self.get_node(label_1)
             if node_1 is None:
-                raise ValueError(f"No existe el nodo con la etiqueta {label_1} en el grafo")
+                raise NotExistNode(label_1)
             else:
                 node_2 = self.get_node(label_2)
                 if node_2 is None:
-                    raise ValueError(f"No existe el nodo con la etiqueta {label_2} en el grafo")
+                    raise NotExistNode(node_2)
 
         return node_1.add_edge(node_2, weight)
 
@@ -67,11 +67,11 @@ class Graph:
     def disconnect(self, label_1: str, label_2:str):
         node_1 = self.get_node(label_1)
         if node_1 is None:
-            raise ValueError(f"No existe el nodo con la etiqueta {label_1} en el grafo")
+            raise NotExistNode(label_1)
         else:
             node_2 = self.get_node(label_2)
             if node_2 is None:
-                raise ValueError(f"No existe el nodo con la etiqueta {label_2} en el grafo")
+                raise NotExistNode(label_2)
         return node_1.delete_edge(node_2)
 
     # Elimina la arista entre dos nodos
@@ -106,7 +106,7 @@ class Graph:
                     if not visited.__contains__(node_n.label):
                         queue.put(node_n)
         else:
-            raise ValueError(f"No existe el nodo {node.label} en el grafo")
+            raise NotExistNode(node.label)
 
         return result
 

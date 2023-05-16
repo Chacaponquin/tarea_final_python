@@ -1,5 +1,5 @@
 from src.modules.graph.classes.GraphEdge import GraphEdge
-from src.modules.graph.exceptions import EmptyNodeLabelException, ConnectionAlreadyExistsException
+from src.modules.graph.exceptions import EmptyNodeLabelException, ConnectionAlreadyExistsException, NotExistEdge
 
 
 class GraphNode:
@@ -56,11 +56,12 @@ class GraphNode:
         result = False
         edge = self.get_edge(node)
         if edge is None:
-            raise ValueError(f"No existe una arista entre{self.label} y {node.label}")
+            raise NotExistEdge(self.label, node.label)
         else:
             result = edge.change_weight(new_weight)
         return result
 
+   ##Retorna False si no son adyacentes
     def is_adjacent(self, node):
         edge = self.get_edge(node)
         return edge is not None
