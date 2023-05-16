@@ -85,7 +85,7 @@ class GraphForm:
 
                 # conexiones posibles
                 posible_connections = self.get_node_posible_connections()
-                new_form.append((node_name, node_connections + [(posible_connections[0], '0')]))
+                new_form.append((node_name, node_connections + [(posible_connections[0], 0)]))
             else:
                 new_form.append(node_inf)
 
@@ -119,7 +119,7 @@ class GraphForm:
         return new_graph
 
     def add_node(self):
-        self.nodes_form.append(('', ''))
+        self.nodes_form.append(('', []))
 
     def update_form(self, selected_graph):
         selected_graph_name, graph = selected_graph
