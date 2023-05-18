@@ -1,6 +1,7 @@
 from src.modules.graph.classes.Graph import Graph
 from src.modules.graph.classes.GraphEdge import GraphEdge
 from src.modules.graph.classes.GraphNode import GraphNode
+from src.modules.graph.exceptions import NodeConnectToItself
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -35,9 +36,15 @@ class GraphServices:
     def matrix_to_graph(labels, matrix: list[list[float]]):
         graph = Graph()
 
-        for row_index, row in enumerate(matrix):
-            pass
+        for label in labels:
+            graph.add_node(label)
 
+        for row_index, row in enumerate(matrix):
+            for column_index, column in enumerate(matrix[row_index]):
+                if column_index == row_index and matrix[row_index][column_index] == 0:
+                    raise NodeConnectToItself(labels[column_index])
+                else:
+                    pass
 
         return graph
 

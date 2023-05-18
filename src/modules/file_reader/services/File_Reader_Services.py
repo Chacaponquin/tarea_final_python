@@ -1,12 +1,11 @@
-import numbers
 
-import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
 from src.modules.file_reader.exceptions import EmptyFileError, FileFormattingError
 from src.modules.graph.classes import Graph, GraphNode, GraphEdge
 from src.modules.graph.services import GraphServices
+from src.modules.graph.exceptions import DuplicateNodeException
 from src.modules.file_reader.constants import GRAPH_IMAGES_PATH,GRAPH_TXT_PATH
 
 
@@ -20,10 +19,11 @@ class FileReaderServices:
             file_content: list[str] = file.read().split('\n')
 
             nodes_names: list[str] = []
-            weight_matrix: list[list[float]] = []
 
             try:
                 nodes_names = file_content[0].split(' ')
+                weight_matrix: list[list[float]] = [[0 for i in range(len(nodes_names))] for i in
+                                                    range(len(nodes_names))]
             except IndexError:
                 raise FileFormattingError(f'La primera fila del archivo deben ser los nombres de los nodos.')
 
@@ -34,21 +34,17 @@ class FileReaderServices:
                     i = 0
                     while i < len(weight_content) and i < len(nodes_names):
                         line = weight_content[i]
-
-                        save_weights: list[float] = [0 for i in range(len(nodes_names))]
-                        line_weights = line.split(' ')
+                        row_line_weights = line.split(' ')
 
                         j = 0
-                        while j < len(save_weights) and j < len(line_weights):
-                            w = line_weights[j]
+                        while j < len(line) and j < len(row_line_weights):
+                            w = row_line_weights[j]
                             if w.isnumeric():
-                                save_weights[j] = float(w)
+                                weight_matrix[i][j] = float(w)
                             else:
                                 raise FileFormattingError(f'La conexión entre los nodos debe ser un número. {w} no es un número')
 
                             j += 1
-
-                        weight_matrix.append(save_weights)
 
                         i += 1
                 else:
@@ -56,10 +52,14 @@ class FileReaderServices:
             except IndexError:
                 raise FileFormattingError(f'Se debe dejar un espacio en blanco para definir la matriz de pesos')
 
-            print(len(nodes_names))
-            print(len(weight_matrix))
+        try:
+            return_graph = GraphServices.matrix_to_graph(nodes_names, weight_matrix)
+        except DuplicateNodeException as error:
+            raise FileFormattingError(f'Existe el nodo {error.duplicate_label} duplicado')
+        except Exception as error:
+            raise FileFormattingError('Hubo un error')
 
-        return GraphServices.matrix_to_graph(nodes_names, weight_matrix)
+        return return_graph
 
     @staticmethod
     def export_graph(graph: Graph, path):

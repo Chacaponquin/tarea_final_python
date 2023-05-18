@@ -13,6 +13,7 @@ class Graph:
             self.node_list.append(GraphNode(label))
         else:
             raise DuplicateNodeException(label)
+
         return node is None
 
     # Retorna un nodo dado un label o None si no existe el nodo
