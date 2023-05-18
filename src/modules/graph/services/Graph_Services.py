@@ -32,18 +32,13 @@ class GraphServices:
         return plt.figure()
 
     @staticmethod
-    def matrix_to_graph(matrix, labels):
+    def matrix_to_graph(labels, matrix: list[list[float]]):
         graph = Graph()
-        for label in labels:
-            graph.add_node(label)
-        i = 0
-        while i < len(matrix):
-            j = 0
-            while j < len(matrix[i]):
-                if i != j and matrix[i][j] != 0:
-                    graph.connect(labels[j], labels[i], matrix[i][j])
-                j = j + 1
-            i = i + 1
+
+        for row_index, row in enumerate(matrix):
+            pass
+
+
         return graph
 
     @staticmethod

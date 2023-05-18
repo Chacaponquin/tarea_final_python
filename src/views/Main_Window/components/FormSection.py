@@ -14,6 +14,10 @@ class FormSection:
 
         # create section
         self.button_section = QtWidgets.QWidget()
+        self.scroll = QtWidgets.QScrollArea(self.button_section)
+
+        self.scroll.setWidgetResizable(False)
+
         self.button_layout = QtWidgets.QVBoxLayout(self.button_section)
 
         # actualizar la sección con los datos

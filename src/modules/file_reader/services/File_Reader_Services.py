@@ -17,42 +17,49 @@ class FileReaderServices:
     @staticmethod
     def import_graph(path):
         with open(path, 'r') as file:
-            if len(file.readlines()) <= 0:
-                raise EmptyFileError()
-            elif len(file.readlines()) < 3:
-                raise FileFormattingError("Hay muy pocas líneas para la correcta representación de la matriz")
+            file_content: list[str] = file.read().split('\n')
 
-            else:
-                if file.readline().strip():
-                    labels = file.readline().split(" ")
-                    matrix = np.zeros([len(file.readline().split(" ")), len(file.readline().split(" "))])
+            nodes_names: list[str] = []
+            weight_matrix: list[list[float]] = []
+
+            try:
+                nodes_names = file_content[0].split(' ')
+            except IndexError:
+                raise FileFormattingError(f'La primera fila del archivo deben ser los nombres de los nodos.')
+
+            try:
+                if file_content[1] == '':
+                    weight_content = file_content[2:]
 
                     i = 0
-                    for line in file.readlines(3):
-                        if line.strip():
-                            values = line.split(" ")
-                            if len(values) < len(labels):
-                                raise FileFormattingError(f"Faltan datos en la fila {i} de la matriz")
-                            elif len(values) > len(labels):
-                                raise FileFormattingError(f"Hay datos de más en la fila {i} de la matriz")
-                            if values[i] != 0:
-                                raise FileFormattingError(f"La diagonal principal en la fila {i} tiene un valor distinto "
-                                                          f"de 0")
-                            if values.__contains__(not numbers):
-                                raise FileFormattingError(f"Existe un valor en la fila {i} que no es un número")
-                            matrix[i] = values
-                            i = i + 1
-                        else:
-                            raise FileFormattingError(f"La línea correspondiente a la fila {i} de la matriz está vacía")
+                    while i < len(weight_content) and i < len(nodes_names):
+                        line = weight_content[i]
 
-                    if i < len(labels):
-                        raise FileFormattingError("La cantidad de filas de la matriz es menor que la cantidad de nodos")
-                    elif i > len(labels):
-                        raise FileFormattingError("La cantidad de filas de la matriz es mayor que la cantidad de nodos")
+                        save_weights: list[float] = [0 for i in range(len(nodes_names))]
+                        line_weights = line.split(' ')
+
+                        j = 0
+                        while j < len(save_weights) and j < len(line_weights):
+                            w = line_weights[j]
+                            if w.isnumeric():
+                                save_weights[j] = float(w)
+                            else:
+                                raise FileFormattingError(f'La conexión entre los nodos debe ser un número. {w} no es un número')
+
+                            j += 1
+
+                        weight_matrix.append(save_weights)
+
+                        i += 1
                 else:
-                    raise FileFormattingError("La primera línea del archivo está vacía")
+                    raise FileFormattingError(f'Se debe dejar un espacio en blanco para definir la matriz de pesos')
+            except IndexError:
+                raise FileFormattingError(f'Se debe dejar un espacio en blanco para definir la matriz de pesos')
 
-            return GraphServices.matrix_to_graph(matrix, labels)
+            print(len(nodes_names))
+            print(len(weight_matrix))
+
+        return GraphServices.matrix_to_graph(nodes_names, weight_matrix)
 
     @staticmethod
     def export_graph(graph: Graph, path):

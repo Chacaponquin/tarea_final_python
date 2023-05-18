@@ -100,7 +100,6 @@ class MainWindowController:
     def import_txts(self, file_routes: list[str]):
         for file in file_routes:
             new_graph = self.file_reader_services.import_graph(file)
-            print(new_graph)
 
     def update_image_section(self):
         self.views[VIEWS.IMAGE_SECTION].update_graphs_action()
