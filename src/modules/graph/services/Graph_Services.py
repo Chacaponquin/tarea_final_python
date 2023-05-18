@@ -40,11 +40,15 @@ class GraphServices:
             graph.add_node(label)
 
         for row_index, row in enumerate(matrix):
-            for column_index, column in enumerate(matrix[row_index]):
-                if column_index == row_index and matrix[row_index][column_index] == 0:
-                    raise NodeConnectToItself(labels[column_index])
+            for column_index, weight in enumerate(row):
+                if column_index == row_index:
+                    if matrix[row_index][column_index] != 0:
+                        raise NodeConnectToItself(labels[column_index])
                 else:
-                    pass
+                    node_1 = labels[row_index]
+                    node_2 = labels[column_index]
+
+                    graph.connect(node_1, node_2, weight)
 
         return graph
 

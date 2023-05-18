@@ -57,7 +57,7 @@ class FileReaderServices:
         except DuplicateNodeException as error:
             raise FileFormattingError(f'Existe el nodo {error.duplicate_label} duplicado')
         except Exception as error:
-            raise FileFormattingError('Hubo un error')
+            raise FileFormattingError(str(error))
 
         return return_graph
 

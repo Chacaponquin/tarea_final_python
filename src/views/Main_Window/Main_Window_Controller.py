@@ -101,7 +101,11 @@ class MainWindowController:
         for file in file_routes:
             new_graph = self.file_reader_services.import_graph(file)
 
-    def update_image_section(self):
+            self.graphs.append({'name': "New Graph BB", "graph": new_graph})
+            self.save_all_graphs()
+            self.update_image_section_action()
+
+    def update_image_section_action(self):
         self.views[VIEWS.IMAGE_SECTION].update_graphs_action()
 
     def add_new_graph(self):
