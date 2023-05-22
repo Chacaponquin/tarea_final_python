@@ -59,7 +59,7 @@ class MainWindowController:
         self.save_all_graphs()
 
         # actualizar image section
-        self.update_image_section()
+        self.update_image_section_action()
 
     # método para guardar uno de los grafos guardados en una imagen
     def save_graph_image(self, graph_name: str):

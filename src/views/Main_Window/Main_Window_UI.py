@@ -14,10 +14,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.init_ui()
 
+        self.center()
+
     def init_ui(self):
         # Configurar la ventana
         self.setWindowTitle("Graph App")
-        self.setGeometry(0, 0, 1200, 750)
+        self.setGeometry(0, 0, 1400, 600)
 
         widget = QtWidgets.QWidget()
 
@@ -35,6 +37,13 @@ class MainWindow(QtWidgets.QMainWindow):
         layout.addWidget(content, 1, 0)
 
         self.setCentralWidget(widget)
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = self.screen().availableGeometry().center()
+
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
 
 

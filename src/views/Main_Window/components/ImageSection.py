@@ -15,7 +15,6 @@ class ImageSection:
         self.image_tab.setStyleSheet('font-size: 18px')
 
         self.image_tab.setFixedWidth(1000)
-        self.image_tab.setFixedHeight(700)
 
         self.image_layout = QtWidgets.QVBoxLayout(self.image_tab)
 

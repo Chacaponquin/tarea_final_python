@@ -14,6 +14,7 @@ class FormSection:
 
         # create section
         self.button_section = QtWidgets.QWidget()
+        self.button_section.setFixedWidth(400)
         self.scroll = QtWidgets.QScrollArea(self.button_section)
 
         self.scroll.setWidgetResizable(False)
@@ -25,7 +26,6 @@ class FormSection:
 
     def update_section(self):
         self.button_section = QtWidgets.QWidget()
-        self.button_section.setMaximumWidth(300)
         self.button_section.setStyleSheet('background-color: white;')
 
         # create layout
