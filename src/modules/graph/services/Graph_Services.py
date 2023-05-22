@@ -14,7 +14,7 @@ class GraphServices:
         graph_edges = [(u, v) for (u, v, d) in save_graph.edges(data=True)]
 
         # positions for all nodes - seed for reproducibility
-        pos = nx.spring_layout(save_graph, seed=20)
+        pos = nx.spring_layout(save_graph, seed=50)
 
         # nodes
         nx.draw_networkx_nodes(save_graph, pos, node_size=500)
@@ -45,10 +45,11 @@ class GraphServices:
                     if matrix[row_index][column_index] != 0:
                         raise NodeConnectToItself(labels[column_index])
                 else:
-                    node_1 = labels[row_index]
-                    node_2 = labels[column_index]
+                    if float(weight) > 0:
+                        node_1 = labels[row_index]
+                        node_2 = labels[column_index]
 
-                    graph.connect(node_1, node_2, weight)
+                        graph.connect(node_1, node_2, weight)
 
         return graph
 

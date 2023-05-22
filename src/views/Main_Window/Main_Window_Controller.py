@@ -3,6 +3,7 @@ from src.modules.file_reader.services import FileReaderServices
 from src.modules.graph.classes import Graph, GraphNode
 from .classes import GraphForm
 from .constants import VIEWS
+import random
 
 
 class MainWindowController:
@@ -76,24 +77,37 @@ class MainWindowController:
     def add_node_form(self):
         self.graph_form.add_node()
 
-    # método para crear el primer grafo que se muestra en la pantalla
+    # método para crear el primer grafo que se muestra en la pantalla (de forma aleatoria)
     def create_default_graph(self) -> Graph:
         new_graph = Graph()
 
-        node_a = GraphNode('A')
-        node_b = GraphNode('B')
-        node_c = GraphNode('C')
+        nodes: list[str] = []
 
-        # guardar los nodos en el grafo
-        nodes = [node_a, node_b, node_c]
+        characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        cant_nodes = int(random.uniform(1, 6))
+
+        for i in range(cant_nodes):
+            n = characters[int(random.uniform(0, len(characters) - 1))]
+            while n in nodes:
+                n = characters[int(random.uniform(0, len(characters) - 1))]
+
+            nodes.append(n)
 
         for node in nodes:
-            new_graph.add_node(node.label)
+            new_graph.add_node(node)
 
-        # creando conexiones
-        new_graph.connect(node_a.label, node_b.label, 10)
-        new_graph.connect(node_a.label, node_c.label, 5)
-        new_graph.connect(node_b.label, node_c.label, 2)
+        for n in nodes:
+            rest_nodes = [node for node in nodes if node != n]
+
+            connections: list[str] = []
+            count_connections = int(random.uniform(1, len(rest_nodes) - 1))
+
+            for i in range(count_connections):
+                rest_nodes = [node for node in rest_nodes if node not in connections]
+                connections.append(rest_nodes[int(random.uniform(0, len(rest_nodes) - 1))])
+
+            for con in connections:
+                new_graph.connect(n, con, round(float(random.uniform(0, 10)), 2))
 
         return new_graph
 

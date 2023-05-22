@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from src.modules.file_reader.exceptions import EmptyFileError, FileFormattingError
 from src.modules.graph.classes import Graph, GraphNode, GraphEdge
 from src.modules.graph.services import GraphServices
-from src.modules.graph.exceptions import DuplicateNodeException
+from src.modules.graph.exceptions import DuplicateNodeException, NodeConnectToItself
 from src.modules.file_reader.constants import GRAPH_IMAGES_PATH,GRAPH_TXT_PATH
 
 
@@ -56,6 +56,8 @@ class FileReaderServices:
             return_graph = GraphServices.matrix_to_graph(nodes_names, weight_matrix)
         except DuplicateNodeException as error:
             raise FileFormattingError(f'Existe el nodo {error.duplicate_label} duplicado')
+        except NodeConnectToItself as error:
+            raise FileFormattingError(f'El nodo {error.node_label} se conecta consigo mismo.')
         except Exception as error:
             raise FileFormattingError(str(error))
 
