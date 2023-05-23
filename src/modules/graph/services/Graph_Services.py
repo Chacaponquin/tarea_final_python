@@ -2,7 +2,6 @@ from src.modules.graph.classes.Graph import Graph
 from src.modules.graph.classes.GraphEdge import GraphEdge
 from src.modules.graph.classes.GraphNode import GraphNode
 from src.modules.graph.exceptions import NodeConnectToItself
-import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
