@@ -125,6 +125,7 @@ class MainWindowController:
     def export_to_txt(self):
         pass
 
+    # generar el nombre del grafo segun la cantidad de grafos creados
     def generate_graph_name(self) -> str:
         return f'Grafo{len(self.graphs) + 1}'
 

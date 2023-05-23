@@ -5,7 +5,6 @@ class GraphForm:
     def __init__(self, selected_graph: (str, Graph)):
         self.selected_graph: (str, Graph) = selected_graph
 
-        self.graph_name: str = ''
         self.nodes_form: list[(str, [(str, float)])] = []
 
         self.update_form(self.selected_graph)
