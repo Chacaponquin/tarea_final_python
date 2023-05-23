@@ -54,17 +54,20 @@ class GraphServices:
         return graph
 
     @staticmethod
-    def graph_to_matrix(graph: Graph):
-        matrix = np.zeros([len(graph.node_list), len(graph.node_list)])
-        i = 0
-        while i < len(graph.node_list):
-            j = 0
-            while j < len(graph.node_list):
-                adjacent_node_edge = graph.node_list[i].get_edge(graph.node_list[j])
-                if i != j and adjacent_node_edge is not None:
-                    matrix[j][i] = adjacent_node_edge.weight
-                j = j + 1
-            i = i + 1
+    def graph_to_matrix(graph: Graph) -> list[list[float]]:
+        nodes_list: list[str] = list(map(lambda x: x.label, graph.node_list))
+        matrix = [[0 for j in range(len(nodes_list))] for i in range(len(nodes_list))]
+
+        for i in range(len(matrix)):
+            edge_list = graph.node_list[i].edge_list
+
+            for edge in edge_list:
+                # conseguir la posicion en la lista de todos los nodos del nodo con el que se conecta
+                con_node_index = nodes_list.index(edge.node.label)
+
+                # cambiar el valor del peso de esa arista hacia el nodo con el que se conecta
+                matrix[i][con_node_index] = float(edge.weight)
+
         return matrix
 
     def convert_graph_to_nx_graph(self, graph: Graph) -> nx.DiGraph:
