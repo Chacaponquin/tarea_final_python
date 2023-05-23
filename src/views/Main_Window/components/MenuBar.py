@@ -11,6 +11,7 @@ class MenuBar:
         self.menubar = QtWidgets.QWidget()
         self.menu_bar_layout = QtWidgets.QHBoxLayout(self.menubar)
         self.menu_bar_layout.setSpacing(15)
+        self.menu_bar_layout.setContentsMargins(0, 0, 0, 0)
 
         self.menu_bar_layout.addStretch()
 

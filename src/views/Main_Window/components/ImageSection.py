@@ -39,9 +39,9 @@ class ImageSection:
             # Crear un label para mostrar la imagen
             image_label = QtWidgets.QLabel()
 
-            # image_label.setStyleSheet(f'width: 100%; background-image: url("{image_route}"); background-repeat: no-repeat; background-size: cover;')
-            pixmap = QtGui.QPixmap(image_route)
-            image_label.setPixmap(pixmap)
+            image_label.setStyleSheet(f'width: 100%; background-image: url("{image_route}"); background-repeat: no-repeat; background-size: cover;')
+            # pixmap = QtGui.QPixmap(image_route)
+            # image_label.setPixmap(pixmap)
             image_label.setScaledContents(True)
 
             self.image_tab.addTab(image_label, graph['name'])

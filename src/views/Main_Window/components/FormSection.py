@@ -12,23 +12,43 @@ class FormSection:
         # controller
         self.main_window_controller = main_window_controller
 
+        # container
+        self.container = QtWidgets.QWidget()
+
         # create section
         self.button_section = QtWidgets.QWidget()
-        self.button_section.setFixedWidth(400)
-        self.scroll = QtWidgets.QScrollArea(self.button_section)
-
-        self.scroll.setWidgetResizable(False)
-
         self.button_layout = QtWidgets.QVBoxLayout(self.button_section)
+        self.button_section.setLayout(self.button_layout)
+
+        self.container_layout = QtWidgets.QVBoxLayout(self.container)
+        self.container.setLayout(self.container_layout)
 
         # actualizar la sección con los datos
         self.update_section()
 
-    def update_section(self):
-        self.button_section = QtWidgets.QWidget()
-        self.button_section.setStyleSheet('background-color: white;')
+    def update_scroll(self):
+        # container
+        self.container = QtWidgets.QWidget()
 
-        # create layout
+        # Scroll Area Properties
+        scroll = QtWidgets.QScrollArea(self.container)
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(self.button_section)
+        scroll.setFixedHeight(500)
+        scroll.setFixedWidth(350)
+
+        #   Scroll Area Layer add
+        scroll_layout = QtWidgets.QVBoxLayout()
+        scroll_layout.addWidget(scroll)
+        scroll_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.container_layout = QtWidgets.QVBoxLayout(self.container)
+        self.container_layout.addWidget(scroll)
+        self.container.setLayout(self.container_layout)
+
+    def update_section(self):
+        # form section
+        self.button_section = QtWidgets.QWidget()
         self.button_layout = QtWidgets.QVBoxLayout(self.button_section)
 
         # pintar el header
@@ -46,14 +66,16 @@ class FormSection:
         # añadir botones de exportar y de recorrido
         self.create_options_buttons()
 
-        self.parent_layout.addWidget(self.button_section, 0, 1)
+        self.update_scroll()
+        self.button_section.setLayout(self.button_layout)
+        self.parent_layout.addWidget(self.container, 0, 1)
 
     def create_options_buttons(self):
         def export_graph_action():
             try:
                 # selecting file path
-                file_path, _ = QtWidgets.QFileDialog.getSaveFileName(self.button_section, "Save Image", "Graph",
-                                                          "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+                file_path, _ = QtWidgets.QFileDialog.get(self.button_section, "Save Image", "Graph", "TEXT(*.txt); ")
+                print(file_path)
             except Exception as error:
                 print(error)
 
@@ -73,7 +95,7 @@ class FormSection:
         options_buttons_section = QtWidgets.QWidget()
         options_buttons_layout = QtWidgets.QVBoxLayout(options_buttons_section)
 
-        export_button = QtWidgets.QPushButton('Export')
+        export_button = QtWidgets.QPushButton('Exportar')
         export_button.clicked.connect(lambda x: export_graph_action())
         export_button.setStyleSheet('font-size: 16px')
 
@@ -144,7 +166,7 @@ class FormSection:
     def paint_node_form(self):
         nodes_section = QtWidgets.QWidget()
         nodes_section_layout = QtWidgets.QVBoxLayout()
-        nodes_section_layout.setSpacing(0)
+        nodes_section_layout.setContentsMargins(0, 0, 0, 0)
         nodes_section.setLayout(nodes_section_layout)
 
         # buscar el grafo seleccionado
@@ -207,6 +229,7 @@ class FormSection:
 
         def delete_edge():
             self.main_window_controller.delete_edge(node_index, edge_index)
+            self.update_section()
 
         connection_section = QtWidgets.QWidget()
         connection_section_layout = QtWidgets.QHBoxLayout(connection_section)
@@ -220,6 +243,7 @@ class FormSection:
 
         edge_delete_button = QtWidgets.QPushButton("X")
         edge_delete_button.setFixedWidth(30)
+        edge_delete_button.setProperty('class', 'danger')
         edge_delete_button.clicked.connect(lambda x: delete_edge())
 
         connection_section_layout.addWidget(node_to_connect_input)

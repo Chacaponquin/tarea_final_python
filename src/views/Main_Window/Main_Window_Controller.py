@@ -15,7 +15,7 @@ class MainWindowController:
         self.file_reader_services = FileReaderServices()
 
         # lista de todos los grafos utilizados
-        self.graphs: list[dict] = [{'name': 'Init Graph', 'graph': self.create_default_graph()}]
+        self.graphs: list[dict] = [{'name': 'Grafo0', 'graph': self.create_default_graph()}]
 
         # índice del grafo seleccionado
         self.selected_graph = 0
@@ -87,7 +87,7 @@ class MainWindowController:
         nodes: list[str] = []
 
         characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-        cant_nodes = int(random.uniform(1, 6))
+        cant_nodes = int(random.uniform(3, 6))
 
         for i in range(cant_nodes):
             n = characters[int(random.uniform(0, len(characters) - 1))]
@@ -118,15 +118,21 @@ class MainWindowController:
         for file in file_routes:
             new_graph = self.file_reader_services.import_graph(file)
 
-            self.graphs.append({'name': "New Graph BB", "graph": new_graph})
+            self.graphs.append({'name': self.generate_graph_name(), "graph": new_graph})
             self.save_all_graphs()
             self.update_image_section_action()
+
+    def export_to_txt(self):
+        pass
+
+    def generate_graph_name(self) -> str:
+        return f'Grafo{len(self.graphs) + 1}'
 
     def update_image_section_action(self):
         self.views[VIEWS.IMAGE_SECTION].update_graphs_action()
 
     def add_new_graph(self):
-        self.graphs.append({'name': f'New Graph{len(self.graphs) + 1}', 'graph': self.create_default_graph()})
+        self.graphs.append({'name': self.generate_graph_name(), 'graph': self.create_default_graph()})
         self.save_all_graphs()
 
         self.update_image_section()
