@@ -54,8 +54,6 @@ class FormSection:
                 # selecting file path
                 file_path, _ = QtWidgets.QFileDialog.getSaveFileName(self.button_section, "Save Image", "Graph",
                                                           "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
-
-                print(file_path)
             except Exception as error:
                 print(error)
 
@@ -105,15 +103,11 @@ class FormSection:
         add_button_layout = QtWidgets.QHBoxLayout(add_button_widget)
         add_button_layout.addStretch()
 
-        add_node_button = QtWidgets.QPushButton('Add Node')
-        add_node_button.setFixedWidth(100)
-        add_node_button.setStyleSheet('background-color: green; color: white; font-weight: 600')
+        add_node_button = QtWidgets.QPushButton('Nuevo Nodo')
         add_node_button.clicked.connect(self.add_node_action)
 
-        update_node_button = QtWidgets.QPushButton('Update')
-        update_node_button.setFixedWidth(100)
+        update_node_button = QtWidgets.QPushButton('Actualizar')
         update_node_button.clicked.connect(self.update_graph_action)
-        update_node_button.setStyleSheet('background-color: blue; color: white; font-weight: 600')
 
         add_button_layout.addWidget(update_node_button)
         add_button_layout.addWidget(add_node_button)
@@ -196,9 +190,7 @@ class FormSection:
 
         # botón
         add_edge_layout.addStretch()
-        add_edge_button = QtWidgets.QPushButton('Add Edge')
-        add_edge_button.setStyleSheet('background-color: green; color: white; font-size: 12px')
-        add_edge_button.setFixedWidth(70)
+        add_edge_button = QtWidgets.QPushButton('Nueva Arista')
         add_edge_button.clicked.connect(lambda x: add_edge())
         add_edge_layout.addWidget(add_edge_button)
 
@@ -213,6 +205,9 @@ class FormSection:
             n = '0' if new_weight == '' else new_weight
             self.main_window_controller.update_edge_weight(node_index, edge_index, float(n))
 
+        def delete_edge():
+            self.main_window_controller.delete_edge(node_index, edge_index)
+
         connection_section = QtWidgets.QWidget()
         connection_section_layout = QtWidgets.QHBoxLayout(connection_section)
 
@@ -223,8 +218,13 @@ class FormSection:
         edge_weight_input.setText(str(edge_weight))
         edge_weight_input.textChanged.connect(lambda v: update_edge_weight(v))
 
+        edge_delete_button = QtWidgets.QPushButton("X")
+        edge_delete_button.setFixedWidth(30)
+        edge_delete_button.clicked.connect(lambda x: delete_edge())
+
         connection_section_layout.addWidget(node_to_connect_input)
         connection_section_layout.addWidget(edge_weight_input)
+        connection_section_layout.addWidget(edge_delete_button)
 
         return connection_section
 

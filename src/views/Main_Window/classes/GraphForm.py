@@ -76,6 +76,24 @@ class GraphForm:
 
         self.nodes_form = new_form
 
+    def delete_edge(self, node_index: int, edge_index: int):
+        new_form: list[(str, [(str, float)])] = []
+
+        for node_i, node_inf in enumerate(self.nodes_form):
+            if node_i == node_index:
+                node_name, node_connections = node_inf
+
+                new_connections = []
+                for con_index, con in enumerate(node_connections):
+                    if con_index != edge_index:
+                        new_connections.append(con)
+
+                new_form.append((node_name, new_connections))
+            else:
+                new_form.append(node_inf)
+
+        self.nodes_form = new_form
+
     def add_node_edge(self, node_index: int):
         new_form: list[(str, [(str, float)])] = []
 

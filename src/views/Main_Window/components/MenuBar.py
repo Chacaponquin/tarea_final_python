@@ -14,18 +14,12 @@ class MenuBar:
 
         self.menu_bar_layout.addStretch()
 
-        import_button = QtWidgets.QPushButton('Import')
+        import_button = QtWidgets.QPushButton('Importar')
         import_button.clicked.connect(lambda x: self.load_txt())
-        import_button.setStyleSheet(
-            'background-color: green; color: white; font-size: 18px; font-weight: 600; padding: 3.5px 0'
-        )
         import_button.setFixedWidth(100)
 
-        new_graph_button = QtWidgets.QPushButton('New Graph')
+        new_graph_button = QtWidgets.QPushButton('Nuevo Grafo')
         new_graph_button.clicked.connect(lambda x: self.create_new_graph())
-        new_graph_button.setStyleSheet(
-            'background-color: blue; color: white; font-size: 18px; font-weight: 600; padding: 3.5px 20px'
-        )
 
         self.menu_bar_layout.addWidget(import_button)
         self.menu_bar_layout.addWidget(new_graph_button)

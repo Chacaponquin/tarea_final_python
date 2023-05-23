@@ -32,6 +32,9 @@ class MainWindowController:
     def update_edge_name(self, node_index: int, edge_index: int, edge_node_name: str):
         self.graph_form.update_edge_name(node_index, edge_index, edge_node_name)
 
+    def delete_edge(self, node_index: int, edge_index: int):
+        self.graph_form.delete_edge(node_index, edge_index)
+
     def save_all_graphs(self):
         for graph in self.graphs:
             self.save_graph_image(graph['name'])
