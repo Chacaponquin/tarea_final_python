@@ -35,7 +35,7 @@ class FormSection:
         scroll.setWidgetResizable(True)
         scroll.setWidget(self.button_section)
         scroll.setFixedHeight(500)
-        scroll.setFixedWidth(350)
+        scroll.setFixedWidth(400)
 
         #   Scroll Area Layer add
         scroll_layout = QtWidgets.QVBoxLayout()
@@ -81,11 +81,10 @@ class FormSection:
 
         def width_traversal_action():
             try:
-                _, graph = self.main_window_controller.get_selected_graph()
-                traversal = graph.width_transversal(graph.node_list[0])
-
+                self.update_graph_action()
+                traversal = self.main_window_controller.width_traversal()
                 message = f'El recorrido a lo ancho del grafo es {", ".join(traversal)}'
-                QtWidgets.QMessageBox.about(self.button_section, 'Recorrido', message)
+                QtWidgets.QMessageBox.about(self.button_section, 'Recorrido a lo ancho', message)
             except Exception as error:
                 QtWidgets.QMessageBox.critical(self.button_section, 'Error', str(error))
 
@@ -194,6 +193,10 @@ class FormSection:
             self.main_window_controller.add_node_edge(node_index)
             self.update_section()
 
+        def delete_node():
+            self.main_window_controller.delete_node(node_index)
+            self.update_section()
+
         # node name input
         node_name_edit = QtWidgets.QLineEdit()
         node_name_edit.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
@@ -208,16 +211,21 @@ class FormSection:
 
         # botones de añadir edge
         add_edge_section = QtWidgets.QWidget()
-        add_edge_layout = QtWidgets.QHBoxLayout(add_edge_section)
+        node_buttos_layout = QtWidgets.QHBoxLayout(add_edge_section)
 
         # botón
-        add_edge_layout.addStretch()
+        node_buttos_layout.addStretch()
         add_edge_button = QtWidgets.QPushButton('Nueva Arista')
         add_edge_button.clicked.connect(lambda x: add_edge())
-        add_edge_layout.addWidget(add_edge_button)
+        node_buttos_layout.addWidget(add_edge_button)
+
+        # delete button
+        delete_node_button = QtWidgets.QPushButton('Eliminar Nodo')
+        delete_node_button.clicked.connect(lambda x: delete_node())
+        delete_node_button.setProperty('class', 'danger')
+        node_buttos_layout.addWidget(delete_node_button)
 
         node_config_layout.addWidget(add_edge_section, len(node_connections), 1)
-
         node_config_layout.addWidget(node_name_edit, 0, 0)
 
         return node_config_section

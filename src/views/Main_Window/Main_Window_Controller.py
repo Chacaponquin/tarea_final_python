@@ -15,7 +15,7 @@ class MainWindowController:
         self.file_reader_services = FileReaderServices()
 
         # lista de todos los grafos utilizados
-        self.graphs: list[dict] = [{'name': 'Grafo0', 'graph': self.create_default_graph()}]
+        self.graphs: list[dict] = [{'name': 'Grafo 1', 'graph': self.create_default_graph()}]
 
         # índice del grafo seleccionado
         self.selected_graph = 0
@@ -128,14 +128,24 @@ class MainWindowController:
     def generate_graph_name(self) -> str:
         return f'Grafo{len(self.graphs) + 1}'
 
+    def delete_node(self, node_index: int):
+        self.graph_form.delete_node(node_index)
+
     def update_image_section_action(self):
         self.views[VIEWS.IMAGE_SECTION].update_graphs_action()
 
     def add_new_graph(self):
-        self.graphs.append({'name': self.generate_graph_name(), 'graph': self.create_default_graph()})
+        new_graph = self.create_default_graph()
+        self.graphs.append({'name': self.generate_graph_name(), 'graph': new_graph})
         self.save_all_graphs()
 
-        self.update_image_section()
+        self.update_image_section_action()
+
+    def width_traversal(self):
+        _, graph = self.get_selected_graph()
+        traversal = graph.width_transversal(graph.node_list[0])
+
+        return traversal
 
 
 

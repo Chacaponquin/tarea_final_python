@@ -19,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def init_ui(self):
         # Configurar la ventana
         self.setWindowTitle("Graph App")
-        self.setGeometry(0, 0, 1400, 600)
+        self.setGeometry(0, 0, 1500, 600)
 
         widget = QtWidgets.QWidget()
 
