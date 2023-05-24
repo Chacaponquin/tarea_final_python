@@ -100,7 +100,7 @@ class FileReaderServices:
         save_graph = self.graph_services.convert_graph_to_nx_graph(graph)
 
         # crear la ruta de la imagen a exportar
-        image_route = FileReaderServices.create_graph_image_route(image_name)
+        image_route = self.create_graph_image_route(image_name)
 
         graph_edges = [(u, v) for (u, v, d) in save_graph.edges(data=True)]
 
@@ -124,12 +124,10 @@ class FileReaderServices:
         plt.savefig(image_route)
         plt.close()
 
-    @staticmethod
-    def create_graph_image_route(image_name: str) -> str:
+    def create_graph_image_route(self, image_name: str) -> str:
         return f'{GRAPH_IMAGES_PATH}/{image_name}.png'
 
-    @staticmethod
-    def create_graph_txt_route(file_name: str) -> str:
+    def create_graph_txt_route(self, file_name: str) -> str:
         return f'{GRAPH_TXT_PATH}/{file_name}.png'
 
 

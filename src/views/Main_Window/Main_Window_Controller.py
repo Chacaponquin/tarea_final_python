@@ -85,7 +85,7 @@ class MainWindowController:
                 self.file_reader_services.export_graph_to_image(graph['graph'], graph_name)
 
     def get_graph_image_route(self, graph_name: str) -> str:
-        return FileReaderServices.create_graph_image_route(graph_name)
+        return self.file_reader_services.create_graph_image_route(graph_name)
 
     def get_graph_plot_figure(self, graph: Graph):
         return self.graph_services.get_graph_plot_figure(graph)
@@ -140,7 +140,7 @@ class MainWindowController:
 
     # generar el nombre del grafo segun la cantidad de grafos creados
     def generate_graph_name(self) -> str:
-        return f'Grafo{len(self.graphs) + 1}'
+        return f'Grafo {len(self.graphs) + 1}'
 
     def delete_node(self, node_index: int):
         self.graph_form.delete_node(node_index)
@@ -155,9 +155,16 @@ class MainWindowController:
 
         self.update_image_section_action()
 
-    def width_traversal(self):
+    def width_traversal(self) -> list[str]:
         _, graph = self.get_selected_graph()
-        traversal = graph.width_transversal(graph.node_list[0])
+        traversal = graph.width_transversal(graph.node_list[0] if len(graph.node_list) > 0 else None)
+
+        return traversal
+
+    def depht_traversal(self) -> list[str]:
+        _, graph = self.get_selected_graph()
+
+        traversal = graph.depth_first_search(graph.node_list[0] if len(graph.node_list) > 0 else None)
 
         return traversal
 

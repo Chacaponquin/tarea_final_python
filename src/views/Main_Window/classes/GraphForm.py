@@ -94,13 +94,33 @@ class GraphForm:
         self.nodes_form = new_form
 
     def delete_node(self, node_index: int):
-        new_form: list[(str, (str, float))] = []
+        new_form: list[(str, list[(str, float)])] = []
 
+        # borrar el nodo del formulario
+        node_deleted = None
         for node_i, node_inf in enumerate(self.nodes_form):
             if node_index != node_i:
                 new_form.append(node_inf)
+            else:
+                node_name, _ = node_inf
+                # si se encuentra se borra y se guarda el nombre
+                node_deleted = node_name
 
-        self.nodes_form = new_form
+        # borrar en el resto de nodos cualquier conexion con el nodo eliminado
+        save_form: list[(str, list[(str, float)])] = []
+        for node_inf in new_form:
+            node_name, node_connections = node_inf
+
+            new_connections: list[(str, float)] = []
+            for con in node_connections:
+                con_node, con_weight = con
+
+                if con_node != node_deleted:
+                    new_connections.append(con)
+
+            save_form.append((node_name, new_connections))
+
+        self.nodes_form = save_form
 
     def add_node_edge(self, node_index: int):
         new_form: list[(str, [(str, float)])] = []

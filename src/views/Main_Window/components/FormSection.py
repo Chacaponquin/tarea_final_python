@@ -70,24 +70,30 @@ class FormSection:
 
     def create_options_buttons(self):
         def export_graph_action():
-            try:
+            def export_graph():
                 # selecting file path
-                file_path = QtWidgets.QFileDialog.getExistingDirectory(self.button_section, "Open a folder", expanduser("~"))
-                self.main_window_controller.export_to_txt(file_path)
-            except Exception as error:
-                print(error)
+                file_path = QtWidgets.QFileDialog.getExistingDirectory(self.button_section, "Select txt location",
+                                                                       expanduser("~"))
+                if file_path != '':
+                    self.main_window_controller.export_to_txt(file_path)
+
+            self.update_graph_action(export_graph)
 
         def width_traversal_action():
-            try:
-                self.update_graph_action()
+            def show_width_traversal():
                 traversal = self.main_window_controller.width_traversal()
                 message = f'El recorrido a lo ancho del grafo es {", ".join(traversal)}'
                 QtWidgets.QMessageBox.about(self.button_section, 'Recorrido a lo ancho', message)
-            except Exception as error:
-                QtWidgets.QMessageBox.critical(self.button_section, 'Error', str(error))
+
+            self.update_graph_action(show_width_traversal)
 
         def depht_traversal_action():
-            pass
+            def show_depht_traversal():
+                traversal = self.main_window_controller.depht_traversal()
+                message = f'El recorrido en profundidad del grafo es {", ".join(traversal)}'
+                QtWidgets.QMessageBox.about(self.button_section, 'Recorrido en profundidad', message)
+
+            self.update_graph_action(show_depht_traversal)
 
         options_buttons_section = QtWidgets.QWidget()
         options_buttons_layout = QtWidgets.QVBoxLayout(options_buttons_section)
@@ -128,9 +134,12 @@ class FormSection:
 
         self.button_layout.addWidget(add_button_widget)
 
-    def update_graph_action(self):
+    # método para actualizar el grafo antes de realizar alguna acción
+    def update_graph_action(self, next_function=None):
         try:
             self.main_window_controller.update_graph_form()
+            if next_function is not None:
+                next_function()
         except EmptyNodeLabelException:
             QtWidgets.QMessageBox.critical(self.button_section, 'Error', 'No pueden existir nodos sin nombre.')
         except DuplicateNodeException as error:
@@ -146,8 +155,8 @@ class FormSection:
             QtWidgets.QMessageBox.critical(self.button_section, 'Error', error.message)
         except NotAFloat as error:
             QtWidgets.QMessageBox.critical(self.button_section, 'Error', error.message)
-        except Exception as err:
-            print(err)
+        except Exception as error:
+            QtWidgets.QMessageBox.critical(self.button_section, 'Error', str(error))
 
     def add_node_action(self):
         self.main_window_controller.add_node_form()
