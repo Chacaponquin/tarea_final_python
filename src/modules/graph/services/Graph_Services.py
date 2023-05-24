@@ -31,8 +31,7 @@ class GraphServices:
         plt.axis("off")
         return plt.figure()
 
-    @staticmethod
-    def matrix_to_graph(labels, matrix: list[list[float]]):
+    def matrix_to_graph(self, labels: list[str], matrix: list[list[float]]):
         graph = Graph()
 
         for label in labels:
@@ -52,9 +51,9 @@ class GraphServices:
 
         return graph
 
-    @staticmethod
-    def graph_to_matrix(graph: Graph) -> list[list[float]]:
+    def graph_to_matrix(self, graph: Graph) -> list[list[float]]:
         nodes_list: list[str] = list(map(lambda x: x.label, graph.node_list))
+        # crear una matriz cuadrada nula de tamaño igual a la cantidad de nodos
         matrix = [[0 for j in range(len(nodes_list))] for i in range(len(nodes_list))]
 
         for i in range(len(matrix)):

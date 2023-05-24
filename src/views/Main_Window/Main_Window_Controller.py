@@ -135,8 +135,8 @@ class MainWindowController:
             self.save_all_graphs()
             self.update_image_section_action()
 
-    def export_to_txt(self):
-        pass
+    def export_to_txt(self, path: str):
+        self.file_reader_services.export_graph_to_txt(self.get_selected_graph(), path)
 
     # generar el nombre del grafo segun la cantidad de grafos creados
     def generate_graph_name(self) -> str:

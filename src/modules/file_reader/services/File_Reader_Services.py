@@ -1,4 +1,4 @@
-
+import os
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -6,15 +6,14 @@ from src.modules.file_reader.exceptions import EmptyFileError, FileFormattingErr
 from src.modules.graph.classes import Graph, GraphNode, GraphEdge
 from src.modules.graph.services import GraphServices
 from src.modules.graph.exceptions import DuplicateNodeException, NodeConnectToItself
-from src.modules.file_reader.constants import GRAPH_IMAGES_PATH,GRAPH_TXT_PATH
+from src.modules.file_reader.constants import GRAPH_IMAGES_PATH, GRAPH_TXT_PATH
 
 
 class FileReaderServices:
     def __init__(self):
         self.graph_services = GraphServices()
 
-    @staticmethod
-    def import_graph(path):
+    def import_graph(self, path: str):
         with open(path, 'r') as file:
             file_content: list[str] = file.read().split('\n')
 
@@ -39,9 +38,9 @@ class FileReaderServices:
                         j = 0
                         while j < len(line) and j < len(row_line_weights):
                             w = row_line_weights[j]
-                            if w.isnumeric():
+                            try:
                                 weight_matrix[i][j] = float(w)
-                            else:
+                            except ValueError:
                                 raise FileFormattingError(f'La conexión entre los nodos debe ser un número. {w} no es un número')
 
                             j += 1
@@ -53,7 +52,7 @@ class FileReaderServices:
                 raise FileFormattingError(f'Se debe dejar un espacio en blanco para definir la matriz de pesos')
 
         try:
-            return_graph = GraphServices.matrix_to_graph(nodes_names, weight_matrix)
+            return_graph = self.graph_services.matrix_to_graph(nodes_names, weight_matrix)
         except DuplicateNodeException as error:
             raise FileFormattingError(f'Existe el nodo {error.duplicate_label} duplicado')
         except NodeConnectToItself as error:
@@ -63,19 +62,38 @@ class FileReaderServices:
 
         return return_graph
 
-    @staticmethod
-    def export_graph(graph: Graph, path):
-        matrix = GraphServices.graph_to_matrix(graph)
-        labels = []
+    def export_graph_to_txt(self, graph_inf: (str, Graph), path):
+        graph_name, graph = graph_inf
+
+        # matriz de adyacencia
+        matrix = self.graph_services.graph_to_matrix(graph)
+        # arreglo con los nombres de los nodos
+        labels: list[str] = []
+
         for node in graph.node_list:
+            # añadir los nombres de los nodos a la lista de labels
             labels.append(node.label)
-        with open(path, 'w') as file:
+
+        # ubicación del archivo txt
+        txt_location = self.build_graph_txt_name(path, graph_name)
+
+        # borrar el archivo si existe
+        if os.path.exists(txt_location):
+            os.remove(txt_location)
+
+        with open(txt_location, 'a') as file:
+            # añadir los nombres de los nodos separados por un espacio
+            # y después se añaden dos filas en blanco
             file.write(" ".join(labels) + "\n\n")
+
+            # añadir los valores de la conexión
             for row in matrix:
-                str_row = str(row).replace("]", "")
-                str_row = str_row.replace("[", "")
-                str_row = str_row.replace(".", "")
-                file.write("".join(str_row) + "\n")
+                str_row = " ".join(list(map(lambda v: str(v), row))) + '\n'
+                file.write(str_row)
+
+    # método para generar la dirección del archivo txt donde se exportará el grafo
+    def build_graph_txt_name(self, location_path: str, graph_name: str) -> str:
+        return f'{location_path}/{graph_name}.txt'
 
     def export_graph_to_image(self, graph: Graph, image_name: str):
         # convertir el grafo normal a un grafo de networkx

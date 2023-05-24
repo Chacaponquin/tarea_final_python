@@ -1,4 +1,5 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
+from os.path import expanduser
 from src.views.Main_Window.Main_Window_Controller import MainWindowController
 from src.views.Main_Window.classes.GraphForm import GraphForm
 from src.modules.graph.exceptions import EmptyNodeLabelException, DuplicateNodeException,NodeConnectToItself, ConnectionAlreadyExistsException, NotExistEdge, NotExistNode, NotAFloat
@@ -71,8 +72,8 @@ class FormSection:
         def export_graph_action():
             try:
                 # selecting file path
-                file_path, _ = QtWidgets.QFileDialog.get(self.button_section, "Save Image", "Graph", "TEXT(*.txt); ")
-                print(file_path)
+                file_path = QtWidgets.QFileDialog.getExistingDirectory(self.button_section, "Open a folder", expanduser("~"))
+                self.main_window_controller.export_to_txt(file_path)
             except Exception as error:
                 print(error)
 
