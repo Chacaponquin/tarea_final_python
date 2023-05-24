@@ -51,9 +51,6 @@ class FormSection:
         self.button_section = QtWidgets.QWidget()
         self.button_layout = QtWidgets.QVBoxLayout(self.button_section)
 
-        # pintar el header
-        self.paint_form_title_section()
-
         # pintar el formulario de nodos
         self.paint_node_form()
 
@@ -111,13 +108,6 @@ class FormSection:
         options_buttons_layout.addWidget(export_button)
 
         self.button_layout.addWidget(options_buttons_section)
-
-    def paint_form_title_section(self):
-        nodes_title = QtWidgets.QLabel()
-        nodes_title.setText('Nodes')
-        nodes_title.setStyleSheet('font-size: 22px; font-weight: 700')
-
-        self.button_layout.addWidget(nodes_title)
 
     def paint_buttons_section(self):
         add_button_widget = QtWidgets.QWidget()

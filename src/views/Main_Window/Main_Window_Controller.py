@@ -26,6 +26,19 @@ class MainWindowController:
         # crear la imagen de todos los grafos (al principio solo hay uno)
         self.save_all_graphs()
 
+    # método para cambiar el grafo seleccionado
+    def change_select_graph(self, graph_index: int):
+        if graph_index >= 0:
+            self.selected_graph = graph_index
+            # crear el nuevo formulario
+            self.graph_form = GraphForm(self.get_selected_graph())
+            # actualizar form UI
+            self.update_form_ui_action()
+
+    # acción para actualizar la UI del formulario de nodos
+    def update_form_ui_action(self):
+        self.views[VIEWS.FORM_SECTION].update_section()
+
     def update_edge_weight(self, node_index: int, edge_index: int, new_weight: float = 0):
         self.graph_form.update_edge_weight(node_index, edge_index, new_weight)
 

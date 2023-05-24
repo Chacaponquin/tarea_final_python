@@ -29,6 +29,7 @@ class MainWindow(QtWidgets.QMainWindow):
         content = QtWidgets.QWidget()
         content_layout = QtWidgets.QGridLayout(content)
 
+        # actualizar las vistas con las instancias de cada componente
         self.views[VIEWS.MENU_BAR] = MenuBar(layout, self.main_window_controller)
         self.views[VIEWS.FORM_SECTION] = FormSection(content_layout, self.main_window_controller)
         self.views[VIEWS.IMAGE_SECTION] = ImageSection(content_layout, self.main_window_controller)
@@ -38,6 +39,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setCentralWidget(widget)
 
+    # funcion para centrar la ventana
     def center(self):
         qr = self.frameGeometry()
         cp = self.screen().availableGeometry().center()

@@ -16,6 +16,9 @@ class ImageSection:
 
         self.image_tab.setFixedWidth(1000)
 
+        # añadir accion cuando se cambie la tab
+        self.image_tab.currentChanged.connect(self.change_tab_action)
+
         self.image_layout = QtWidgets.QVBoxLayout(self.image_tab)
 
         # actualizar los grafos
@@ -27,12 +30,16 @@ class ImageSection:
         # add to layout
         self.parent_layout.addWidget(self.image_tab, 0, 0)
 
+    def change_tab_action(self, tab_index: int):
+        if tab_index >= 0:
+            self.main_window_controller.change_select_graph(tab_index)
+
     def update_graphs_action(self):
         self.update_graphs()
 
     def update_graphs(self):
         self.image_tab.clear()
-        for graph in self.main_window_controller.graphs:
+        for index, graph in enumerate(self.main_window_controller.graphs):
             # ruta de la imagen (que es igual al nombre del grafo creado)
             image_route = self.main_window_controller.get_graph_image_route(graph['name'])
 
